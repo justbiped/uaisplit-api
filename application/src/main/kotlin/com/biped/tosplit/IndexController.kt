@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/")
-class ControllerExample {
+class IndexController {
 
-    @GetMapping
     @Authorized
+    @GetMapping
     fun home(): ResponseEntity<String> {
         return ResponseEntity.ok().body("Opaa")
     }

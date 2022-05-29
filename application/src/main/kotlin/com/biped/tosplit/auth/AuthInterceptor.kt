@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class Authenticator(private val authorization: Authorization) : HandlerInterceptor {
+class AuthInterceptor(private val authorization: Authorization) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         if (isAuthNotRequired(handler)) return true

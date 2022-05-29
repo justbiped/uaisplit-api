@@ -1,11 +1,11 @@
 package com.biped.tosplit.auth
 
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
-import org.springframework.stereotype.Component
 
 
-@Component
+@Configuration
 class AuthModule(private val environment: Environment) {
 
     @Bean
