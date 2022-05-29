@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse
 class AuthInterceptor(private val authorization: Authorization) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (isAuthNotRequired(handler)) return true
-
-        val accessToken = request.getHeader(AUTH_HEADER_KEY)
-        authorization.authorize(accessToken)
+        if (isAuthRequired(handler)) {
+            val accessToken = request.getHeader(AUTH_HEADER_KEY) ?: ""
+            authorization.authorize(accessToken)
+        }
 
         return true
     }
 
-    private fun isAuthNotRequired(handler: Any): Boolean {
-        return (handler as HandlerMethod).method.getAnnotation(Authorized::class.java) == null
+    private fun isAuthRequired(handler: Any): Boolean {
+        return (handler as HandlerMethod).method.getAnnotation(Authorized::class.java) != null
     }
 
     companion object {
