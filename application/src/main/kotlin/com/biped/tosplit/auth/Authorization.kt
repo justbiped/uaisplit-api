@@ -11,7 +11,7 @@ class Authorization(credentialsFile: String = "") {
     init {
         val firebaseCredentialsStream = this.javaClass.classLoader.getResourceAsStream(credentialsFile)
 
-        val options = FirebaseOptions.Builder()
+        val options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(firebaseCredentialsStream))
             .build()
 
