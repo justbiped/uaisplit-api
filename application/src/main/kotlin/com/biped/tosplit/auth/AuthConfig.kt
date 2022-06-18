@@ -7,9 +7,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.SecurityFilterChain
 
 
 @Configuration
@@ -37,7 +34,7 @@ class AuthConfig(private val environment: Environment) {
             val registrationBean = FilterRegistrationBean<AuthFilter>()
             registrationBean.filter = authFilter
             registrationBean.order = 1
-            registrationBean.addUrlPatterns("/authorize")
+            registrationBean.addUrlPatterns("*")
             return registrationBean
         }
     }

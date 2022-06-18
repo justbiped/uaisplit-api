@@ -29,3 +29,34 @@ class SecurityConfig constructor() {
             .build()
     }
 }
+
+//@Component
+//class AuthFilter constructor(private val authorization: Authorization) : AbstractPreAuthenticatedProcessingFilter() {
+//    init {
+//        this.setAuthenticationManager { authentication ->
+//            val accessToken = (authentication.principal as? String) ?: ""
+//            try {
+//                authorization.authorize(accessToken)
+//                authentication.isAuthenticated = true
+//            } catch (error: Throwable) {
+//                throw BadCredentialsException(error.message)
+//            }
+//
+//            authentication
+//        }
+//    }
+//
+//    override fun getPreAuthenticatedPrincipal(request: HttpServletRequest): Any {
+//        return request.getHeader(AUTHORIZATION_HEADER_KEY)
+//    }
+//
+//    override fun getPreAuthenticatedCredentials(request: HttpServletRequest?): Any {
+//        return "N/A"
+//    }
+//
+//    companion object {
+//        const val AUTHORIZATION_HEADER_KEY = "Authorization"
+//    }
+//}
+//
+//
