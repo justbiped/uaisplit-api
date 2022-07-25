@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class IndexController {
 
     @GetMapping
-    fun home(): ResponseEntity<String> {
-        return ResponseEntity.ok().body("Opaa")
+    fun toSplitVersion(): ResponseEntity<String> {
+        return ResponseEntity.ok().body("To split version: 0.1")
     }
 }
