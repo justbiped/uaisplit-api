@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class AuthFilter constructor(private val authorization: Authorization) : OncePerRequestFilter() {
 
+    private val ignoredEndpoints = setOf("/", "/index", "/health")
+
     override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            filterChain: FilterChain
     ) {
         val accessToken = request.getHeader(AUTHORIZATION_HEADER_KEY)
         try {
@@ -25,7 +27,8 @@ class AuthFilter constructor(private val authorization: Authorization) : OncePer
     }
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
-        return request.requestURI.matches(Regex("/|/index|/health"))
+        val pattern = ignoredEndpoints.joinToString("|")
+        return request.requestURI.matches(Regex(pattern))
 
     }
 
