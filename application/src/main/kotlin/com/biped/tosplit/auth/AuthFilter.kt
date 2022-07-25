@@ -1,5 +1,7 @@
 package com.biped.tosplit.auth
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
@@ -12,17 +14,26 @@ class AuthFilter constructor(private val authorization: Authorization) : OncePer
     private val ignoredEndpoints = setOf("/", "/index", "/health")
 
     override fun doFilterInternal(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            filterChain: FilterChain
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
     ) {
-        val accessToken = request.getHeader(AUTHORIZATION_HEADER_KEY)
         try {
+            val accessToken = request.getHeader(AUTHORIZATION_HEADER_KEY)
             val uid = authorization.authorize(accessToken)
             request.setAttribute(UID_KEY, uid)
             filterChain.doFilter(request, response)
         } catch (error: Throwable) {
-            throw UnauthorizedException()
+            val responseEntity = parseError(error)
+            response.status = response.status
+            response.outputStream.println(responseEntity.body)
+        }
+    }
+
+    private fun parseError(error: Throwable): ResponseEntity<String> {
+        return when (error) {
+            is UnauthorizedException -> ResponseEntity("Unauthorized: ${error.message}", HttpStatus.UNAUTHORIZED)
+            else -> ResponseEntity("Bad request: ${error.message}", HttpStatus.BAD_REQUEST)
         }
     }
 
