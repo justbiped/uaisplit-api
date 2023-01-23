@@ -4,7 +4,7 @@ import com.google.firebase.cloud.FirestoreClient
 
 class OperationRepository {
 
-    fun bla(): List<OperationMetadata> {
+    fun bla(): List<OperationMetadataEntity> {
         //receive a date
         val db = FirestoreClient.getFirestore()
         val query = db.collection("transaction")
@@ -15,7 +15,7 @@ class OperationRepository {
 
         return query
             .get().documents.map {
-            OperationMetadata(
+            OperationMetadataEntity(
                 id = it.id,
                 name = it.getString("name").orEmpty(),
                 description = it.getString("description").orEmpty(),
@@ -28,7 +28,7 @@ class OperationRepository {
     }
 }
 
-data class OperationMetadata(
+data class OperationMetadataEntity(
     val id: String,
     val name: String,
     val description: String,

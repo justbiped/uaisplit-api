@@ -1,9 +1,10 @@
 package com.biped.tosplit.operation
 
+import com.biped.tosplit.operation.data.OperationRequest
+import com.biped.tosplit.operation.data.toDomain
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/operation")
@@ -15,5 +16,10 @@ class OperationController {
         return ResponseEntity
             .ok()
             .body(operations.toString())
+    }
+
+    @PostMapping
+    fun createOperation(@RequestBody operation: OperationRequest) {
+        operation.toDomain()
     }
 }
