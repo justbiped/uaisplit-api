@@ -5,10 +5,10 @@ import biped.works.tosplit.transaction.data.TransactionMetadataRepository
 import javax.inject.Inject
 
 class CreateOperationMetadataUseCase @Inject constructor(
-    operationRepository: TransactionMetadataRepository
+    private val transactionRepository: TransactionMetadataRepository
 ) {
     operator fun invoke(transaction: Transaction) {
-        //operationRepository.saveMetadata(transaction.generateMetadata())
+        transactionRepository.saveMetadata(transaction.generateMetadata())
         transaction.generateMetadata()
     }
 }
