@@ -1,6 +1,7 @@
 package biped.works.tosplit.transaction.controller
 
 import biped.works.tosplit.transaction.CreateTransactionUseCase
+import biped.works.tosplit.transaction.ListOperationsUseCase
 import biped.works.tosplit.transaction.data.TransactionRequest
 import biped.works.tosplit.transaction.data.toDomain
 import org.springframework.http.ResponseEntity
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/transaction")
 class TransactionController constructor(
-    private val createTransaction: CreateTransactionUseCase
+    private val createTransaction: CreateTransactionUseCase,
+    private val listOperationUseCase: ListOperationsUseCase
 ) {
 
     @GetMapping

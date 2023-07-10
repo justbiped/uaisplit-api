@@ -14,19 +14,25 @@ interface Transaction {
     fun toMetadata(): List<OperationMetadata>
 }
 
-data class StandardTransaction(
-    override val id: String = "",
-    override val name: String = "",
-    override val description: String = "",
-    override val entry: LocalDate = LocalDate.now(),
-    override val value: BigDecimal = BigDecimal(0),
-    override val recurrence: Recurrence = Recurrence()
-) : Transaction {
+fun transaction(
+    id: String = "",
+    name: String = "",
+    description: String = "",
+    entry: LocalDate = LocalDate.now(),
+    value: BigDecimal = BigDecimal(0),
+    recurrence: Recurrence = Recurrence()
+) = object : Transaction {
+    override val id: String = id
+    override val name: String = name
+    override val description: String = description
+    override val entry: LocalDate = entry
+    override val value: BigDecimal = value
+    override val recurrence: Recurrence = recurrence
     override fun toMetadata() = emptyList<OperationMetadata>()
 }
 
 data class MonthTransaction(
-    private val transaction: Transaction = StandardTransaction()
+    private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
     override fun toMetadata(): List<OperationMetadata> {
@@ -35,7 +41,7 @@ data class MonthTransaction(
             LocalDate.MAX
         } else {
             transaction.entry
-                .apply { plusMonths(recurrence.count - 1L) }
+                .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
@@ -47,14 +53,14 @@ data class MonthTransaction(
                 entry = transaction.entry,
                 conclusion = outDate,
                 value = transaction.value,
-                recurrence = transaction.recurrence.toString()
+                recurrence = transaction.recurrence
             )
         )
     }
 }
 
 data class YearTransaction(
-    private val transaction: Transaction = StandardTransaction()
+    private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
     override fun toMetadata(): List<OperationMetadata> {
@@ -63,7 +69,7 @@ data class YearTransaction(
             LocalDate.MAX
         } else {
             transaction.entry
-                .apply { plusMonths(recurrence.count - 1L) }
+                .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
@@ -75,14 +81,14 @@ data class YearTransaction(
                 entry = transaction.entry,
                 conclusion = outDate,
                 value = transaction.value,
-                recurrence = transaction.recurrence.toString()
+                recurrence = transaction.recurrence
             )
         )
     }
 }
 
 data class CustomTransaction(
-    private val transaction: Transaction = StandardTransaction()
+    private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
     override fun toMetadata(): List<OperationMetadata> {
@@ -91,7 +97,7 @@ data class CustomTransaction(
             LocalDate.MAX
         } else {
             transaction.entry
-                .apply { plusMonths(recurrence.count - 1L) }
+                .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
@@ -103,21 +109,12 @@ data class CustomTransaction(
                 entry = transaction.entry,
                 conclusion = outDate,
                 value = transaction.value,
-                recurrence = transaction.recurrence.toString()
+                recurrence = transaction.recurrence
             )
         )
     }
 }
 
-data class OperationMetadata(
-    val id: String,
-    val name: String,
-    val description: String,
-    val entry: LocalDate,
-    val conclusion: LocalDate,
-    val value: BigDecimal,
-    val recurrence: String
-)
 //data class Reccurence(val frequency: ){
 //frequency=month;day=16;workday=true;count=3
 //frequency=year;day=16;workday=true;count=3

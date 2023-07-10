@@ -1,7 +1,7 @@
 package biped.works.tosplit.transaction.di
 
 import biped.works.tosplit.transaction.CreateTransactionUseCase
-import biped.works.tosplit.transaction.data.TransactionMetadataRepository
+import biped.works.tosplit.transaction.data.OperationMetadataRepository
 import com.google.cloud.firestore.Firestore
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,10 +13,10 @@ class TransactionModule {
 
     @Bean
     fun provideCreateOperationMetadataUseCase(
-        transactionRepository: TransactionMetadataRepository
+        transactionRepository: OperationMetadataRepository
     ) = CreateTransactionUseCase(transactionRepository)
 
 
     @Bean
-    fun provideTransactionRepository(firestore: Firestore) = TransactionMetadataRepository(firestore)
+    fun provideTransactionRepository(firestore: Firestore) = OperationMetadataRepository(firestore)
 }

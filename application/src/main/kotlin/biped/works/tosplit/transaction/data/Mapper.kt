@@ -1,12 +1,13 @@
 package biped.works.tosplit.transaction.data
 
+import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
 import com.google.cloud.Timestamp
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Date
 
 fun TransactionRequest.toDomain(): Transaction {
-    val standardOperation = StandardTransaction(
+    val transaction = transaction(
         id = id,
         name = name,
         description = description,
@@ -16,36 +17,36 @@ fun TransactionRequest.toDomain(): Transaction {
     )
 
     return when (recurrence.frequency) {
-        Frequency.YEAR -> YearTransaction(standardOperation)
-        Frequency.MONTH -> MonthTransaction(standardOperation)
-        Frequency.CUSTOM -> CustomTransaction(standardOperation)
+        Frequency.YEAR -> YearTransaction(transaction)
+        Frequency.MONTH -> MonthTransaction(transaction)
+        Frequency.CUSTOM -> CustomTransaction(transaction)
     }
 }
 
 fun RecurrenceRequest.toDomain() = Recurrence(
     frequency = frequency,
     day = day,
-    count = count,
-    workDay = workDay
+    times = count,
+    workday = workDay
 )
 
-fun OperationMetadataEntity.toDomain(id: String) = OperationMetadata(
+fun RemoteOperationMetadata.toDomain(id: String) = OperationMetadata(
     id = id,
     name = name,
     description = description,
     entry = entry.toLocalDate(),
     conclusion = conclusion.toLocalDate(),
     value = value,
-    recurrence = recurrence
+    recurrence = Recurrence.parse(recurrence)
 )
 
-fun OperationMetadata.toEntity(owner: String) = OperationMetadataEntity(
+fun OperationMetadata.toEntity(owner: String) = RemoteOperationMetadata(
     name = name,
     description = description,
     entry = entry.toTimestamp(),
     owner = owner,
     conclusion = conclusion.toTimestamp(),
-    recurrence = recurrence,
+    recurrence = recurrence.toString(),
     value = value
 )
 

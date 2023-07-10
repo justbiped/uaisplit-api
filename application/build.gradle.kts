@@ -31,6 +31,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-admin:9.1.1")
 
+    testImplementation("com.google.truth:truth:1.1.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
