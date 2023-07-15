@@ -13,8 +13,8 @@ data class OperationMetadata(
     val value: BigDecimal,
     val recurrence: Recurrence
 ) {
-    fun createOperations() {
-        listOf(
+    fun createOperations(): List<Operation> {
+        return listOf(
             Operation(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
@@ -26,11 +26,13 @@ data class OperationMetadata(
         )
     }
 
-    data class Operation(
-        val id: String,
-        val metaId: String,
-        val name: String,
-        val description: String,
-        val duty: LocalDate,
-        val value: BigDecimal
-    )
+}
+
+data class Operation(
+    val id: String,
+    val metaId: String,
+    val name: String,
+    val description: String,
+    val duty: LocalDate,
+    val value: BigDecimal
+)
