@@ -121,8 +121,6 @@ data class CustomTransaction(
 //frequency=custom;day=2;workday=true;count=3
 //}
 
-// custom range só pode aceitar de 29 em 29 dias max
-
 //data class YearRecurrence(
 //    override val count: Int,
 //    override val day: Int,
