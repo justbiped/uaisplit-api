@@ -13,7 +13,12 @@ data class OperationMetadata(
     val value: BigDecimal,
     val recurrence: Recurrence
 ) {
-    fun createOperations(): List<Operation> {
+    fun createOperations(): List<Operation> = when (recurrence.frequency) {
+        Frequency.MONTH -> createMontOperations()
+        else -> emptyList()
+    }
+
+    private fun createMontOperations(): List<Operation> {
         return listOf(
             Operation(
                 id = UUID.randomUUID().toString(),

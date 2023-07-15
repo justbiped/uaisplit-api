@@ -1,13 +1,10 @@
 package biped.works.tosplit.transaction.data
 
-import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
 import com.google.cloud.firestore.Firestore
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.Month
 import java.util.UUID
 import javax.inject.Inject
-import jdk.dynalink.Operation
 
 class OperationMetadataRepository @Inject constructor(firestore: Firestore) {
 

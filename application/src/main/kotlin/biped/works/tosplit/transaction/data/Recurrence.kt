@@ -3,7 +3,7 @@ package biped.works.tosplit.transaction.data
 data class Recurrence(
     val frequency: Frequency = Frequency.CUSTOM,
     val day: Int = 10,
-    val times: Int = -1,
+    val times: Int = 1,
     val workday: Boolean = false
 ) {
 
