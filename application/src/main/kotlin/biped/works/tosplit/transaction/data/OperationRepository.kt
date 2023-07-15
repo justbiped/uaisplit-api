@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
-class OperationMetadataRepository @Inject constructor(firestore: Firestore) {
+class OperationRepository @Inject constructor(firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
