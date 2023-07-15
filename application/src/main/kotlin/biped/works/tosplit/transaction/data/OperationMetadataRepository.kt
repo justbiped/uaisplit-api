@@ -29,7 +29,7 @@ class OperationMetadataRepository @Inject constructor(firestore: Firestore) {
                 entry = LocalDate.of(2023,7,15),
                 conclusion = LocalDate.of(2023,12,15),
                 value = BigDecimal.valueOf(123),
-                recurrence = Recurrence()
+                recurrence = Recurrence(frequency = Frequency.MONTH, times = 5)
             )
         )
     }
