@@ -1,5 +1,6 @@
-package biped.works.tosplit.transaction.data
+package biped.works.tosplit.transaction.data.remote
 
+import biped.works.tosplit.transaction.data.Frequency
 import java.math.BigDecimal
 import java.time.LocalDate
 

@@ -2,7 +2,6 @@ package biped.works.tosplit.operation.data
 
 import biped.works.tosplit.transaction.data.Frequency
 import biped.works.tosplit.transaction.data.Recurrence
-import biped.works.tosplit.transaction.data.RecurrenceRequest
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -13,7 +12,7 @@ class RecurrenceTest {
     fun `parse month recurrence to string for given params`() {
         val recurrence = Recurrence(
             frequency = Frequency.MONTH,
-            day = 9,
+            interval = 9,
             times = 2,
             workday = false
         )
@@ -30,7 +29,7 @@ class RecurrenceTest {
         assertThat(recurrence).isEqualTo(
             Recurrence(
                 frequency = Frequency.MONTH,
-                day = 9,
+                interval = 9,
                 times = 2,
                 workday = false
             )

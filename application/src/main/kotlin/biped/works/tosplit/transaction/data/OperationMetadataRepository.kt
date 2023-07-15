@@ -30,6 +30,15 @@ class OperationMetadataRepository @Inject constructor(firestore: Firestore) {
                 conclusion = LocalDate.of(2023,12,15),
                 value = BigDecimal.valueOf(123),
                 recurrence = Recurrence(frequency = Frequency.MONTH, times = 5)
+            ),
+            OperationMetadata(
+                id = UUID.randomUUID().toString(),
+                name = "Drugs sell",
+                description = "every day, ",
+                entry = LocalDate.of(2023,1,1),
+                conclusion = LocalDate.of(2023,1,30),
+                value = BigDecimal.valueOf(123),
+                recurrence = Recurrence(frequency = Frequency.CUSTOM, interval = 7)
             )
         )
     }

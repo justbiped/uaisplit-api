@@ -3,7 +3,7 @@ package biped.works.tosplit.transaction.controller
 import biped.works.tosplit.transaction.CreateTransactionUseCase
 import biped.works.tosplit.transaction.ListOperationsUseCase
 import biped.works.tosplit.transaction.data.Operation
-import biped.works.tosplit.transaction.data.TransactionRequest
+import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import biped.works.tosplit.transaction.data.toDomain
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

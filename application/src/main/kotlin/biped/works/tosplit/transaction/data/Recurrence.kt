@@ -2,8 +2,8 @@ package biped.works.tosplit.transaction.data
 
 data class Recurrence(
     val frequency: Frequency = Frequency.CUSTOM,
-    val day: Int = 10,
-    val times: Int = 1,
+    val interval: Int = 7,
+    val times: Int = -1,
     val workday: Boolean = false
 ) {
 
@@ -12,7 +12,7 @@ data class Recurrence(
     override fun toString(): String {
         val builder = StringBuilder()
         builder.append("frequency=$frequency;")
-        builder.append("day=$day;")
+        builder.append("day=$interval;")
         builder.append("times=$times;")
         builder.append("workday=$workday")
 
@@ -30,7 +30,7 @@ data class Recurrence(
 
             return Recurrence(
                 frequency = Frequency.valueOf(frequency),
-                day = day.toInt(),
+                interval = day.toInt(),
                 times = times.toInt(),
                 workday = workday.toBoolean()
             )

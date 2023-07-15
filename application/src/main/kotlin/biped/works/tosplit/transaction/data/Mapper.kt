@@ -1,6 +1,8 @@
 package biped.works.tosplit.transaction.data
 
+import biped.works.tosplit.transaction.data.remote.RecurrenceRequest
 import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
+import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import com.google.cloud.Timestamp
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -25,7 +27,7 @@ fun TransactionRequest.toDomain(): Transaction {
 
 fun RecurrenceRequest.toDomain() = Recurrence(
     frequency = frequency,
-    day = day,
+    interval = day,
     times = count,
     workday = workDay
 )
