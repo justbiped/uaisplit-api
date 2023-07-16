@@ -14,6 +14,6 @@ class ListOperationsUseCase @Inject constructor(
         val range = Range(entry, conclusion)
         return operationRepository
             .getOperationMetadataList(range)
-            .flatMap { it.createOperations(conclusion) }
+            .flatMap { it.createOperations(range) }
     }
 }
