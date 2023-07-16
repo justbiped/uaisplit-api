@@ -41,6 +41,23 @@ class OperationMetadataTest {
     }
 
     @Test
+    fun `respect month metadata conclusion when the range is greater`() {
+        val recurrence = Recurrence(frequency = Frequency.MONTH, times = 5)
+        val entry = LocalDate.of(2023, 1, 10)
+        val conclusion = LocalDate.of(2023, 2, 10)
+
+        val operations = metadataFixture(
+            entry = entry,
+            conclusion = conclusion,
+            recurrence = recurrence
+        ).createOperations()
+
+        assertThat(operations).hasSize(2)
+        assertThat(operations[0].duty).isEqualTo(entry)
+        assertThat(operations[1].duty).isEqualTo(entry.plusMonths(1))
+    }
+
+    @Test
     fun `create operations for weekly custom operation`() {
         val entry = LocalDate.of(2023, 1, 1)
         val conclusion = LocalDate.of(2023, 1, 30)
