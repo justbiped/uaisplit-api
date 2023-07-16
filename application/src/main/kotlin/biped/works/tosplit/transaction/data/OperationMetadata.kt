@@ -3,7 +3,6 @@ package biped.works.tosplit.transaction.data
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.UUID
-import org.apache.tomcat.jni.Local
 
 data class OperationMetadata(
     val id: String,
@@ -14,14 +13,14 @@ data class OperationMetadata(
     val value: BigDecimal,
     val recurrence: Recurrence
 ) {
-    fun createOperations(): List<Operation> = when (recurrence.frequency) {
+    fun createOperations(conclusion: LocalDate = LocalDate.MAX): List<Operation> = when (recurrence.frequency) {
         Frequency.MONTH -> createMontOperations()
-        Frequency.CUSTOM -> createCustomOperations()
+        Frequency.CUSTOM -> createCustomOperations(conclusion)
         else -> emptyList()
     }
 
-    private fun createCustomOperations(): List<Operation> {
-        val endDate = LocalDate.of(2023, 1, 30)
+    private fun createCustomOperations(conclusion: LocalDate): List<Operation> {
+        val endDate = conclusion
         var duty = entry
 
         val operations = mutableListOf<Operation>()
@@ -65,4 +64,9 @@ data class Operation(
     val description: String,
     val duty: LocalDate,
     val value: BigDecimal
+)
+
+data class Range(
+    val entry: LocalDate = LocalDate.MIN,
+    val conclusion: LocalDate = LocalDate.MAX
 )

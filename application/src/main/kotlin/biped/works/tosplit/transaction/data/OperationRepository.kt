@@ -10,7 +10,7 @@ class OperationRepository @Inject constructor(firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
-    fun getOperationMetadataList(): List<OperationMetadata> {
+    fun getOperationMetadataList(range: Range): List<OperationMetadata> {
         val apiFuture = collection
             .whereEqualTo("user", "aXTh7D9qGSNk1zjWtDrR")
             //            .whereGreaterThan("issue")

@@ -21,9 +21,10 @@ class OperationMetadataTest {
     @Test
     fun `create operations for weekly custom operation`() {
         val entry = LocalDate.of(2023, 1, 1)
+        val conclusion = LocalDate.of(2023, 1, 30)
         val recurrence = Recurrence(frequency = Frequency.CUSTOM, interval = 7)
 
-        val operations = metadataFixture(entry = entry, recurrence = recurrence).createOperations()
+        val operations = metadataFixture(entry = entry, recurrence = recurrence).createOperations(conclusion)
 
         assertThat(operations).hasSize(5)
         assertThat(operations[0].duty).isEqualTo(LocalDate.of(2023, 1, 1))
