@@ -21,8 +21,8 @@ class OperationController(
     private val listOperations: ListOperationsUseCase
 ) {
 
-    @GetMapping("/{entry}/{conclusion}}")
-    fun getOperations(@PathVariable entry: String, conclusion: String): ResponseEntity<List<Operation>> {
+    @GetMapping("/{entry}/{conclusion}")
+    fun getOperations(@PathVariable entry: String, @PathVariable conclusion: String): ResponseEntity<List<Operation>> {
         val operations = listOperations(entry.toLocalDate(), conclusion.toLocalDate())
         return ResponseEntity.ok(operations)
     }
