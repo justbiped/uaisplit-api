@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -11,6 +13,14 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+}
+
+tasks.withType<BootJar>{
+    exec {
+        commandLine = listOf("mkdir", "-p", "${rootProject.buildDir}/libs")
+    }
+    archiveFileName.set("app.jar")
+    destinationDirectory.set(File("${rootProject.buildDir}/libs"))
 }
 
 tasks.test {
