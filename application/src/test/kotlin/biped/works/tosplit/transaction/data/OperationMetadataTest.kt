@@ -60,7 +60,7 @@ class OperationMetadataTest {
     @Test
     fun `create operations for weekly custom operation`() {
         val entry = LocalDate.of(2023, 1, 1)
-        val conclusion = LocalDate.of(2023, 1, 30)
+        val conclusion = LocalDate.of(2023, 1, 29)
         val recurrence = Recurrence(frequency = Frequency.CUSTOM, interval = 7)
 
         val operations =

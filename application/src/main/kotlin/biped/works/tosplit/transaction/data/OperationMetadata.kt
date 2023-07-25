@@ -26,7 +26,7 @@ data class OperationMetadata(
         var duty = entry
         val operations = mutableListOf<Operation>()
 
-        while (duty.isBefore(range.conclusion)) {
+        while (duty.isBeforeOrEquals(range.conclusion)) {
             val operation = Operation(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
