@@ -48,7 +48,7 @@ data class OperationMetadata(
         val endDate = DateTools.min(conclusion, range.conclusion)
         val operations = mutableListOf<Operation>()
 
-        while (duty.isBefore(endDate) || duty == endDate) {
+        while (duty.isBeforeOrEquals(endDate)) {
             val operation = Operation(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
