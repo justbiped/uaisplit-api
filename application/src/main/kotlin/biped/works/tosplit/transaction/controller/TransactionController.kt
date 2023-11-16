@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/operation")
-class OperationController(
+@RequestMapping("/transaction")
+class TransactionController(
     private val createTransaction: CreateTransactionUseCase,
     private val listOperations: ListOperationsUseCase
 ) {
-
     @GetMapping("/{entry}/{conclusion}")
     fun getOperations(@PathVariable entry: String, @PathVariable conclusion: String): ResponseEntity<List<Operation>> {
         val operations = listOperations(entry.toLocalDate(), conclusion.toLocalDate())
