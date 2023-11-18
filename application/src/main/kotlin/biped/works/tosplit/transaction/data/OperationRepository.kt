@@ -1,10 +1,13 @@
 package biped.works.tosplit.transaction.data
 
+import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
 import com.google.cloud.firestore.Firestore
-import java.math.BigDecimal
 import java.time.LocalDate
-import java.util.UUID
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneOffset
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 class OperationRepository @Inject constructor(firestore: Firestore) {
 
@@ -12,40 +15,27 @@ class OperationRepository @Inject constructor(firestore: Firestore) {
 
     fun getOperationMetadataList(range: Range): List<OperationMetadata> {
         val apiFuture = collection
-            .whereEqualTo("user", "aXTh7D9qGSNk1zjWtDrR")
-            //            .whereGreaterThan("issue")
-            //            .whereLessThan()
+            .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
+            .whereGreaterThanOrEqualTo("entry", range.entry.inMilliseconds())
+         //   .whereLessThan("conclusion", range.conclusion.inMilliseconds())
             .get()
 
-        //        return apiFuture.get().documents.map { document ->
-        //            document.toObject(RemoteOperationMetadata::class.java).toDomain(document.id)
-        //        }
-
-        return listOf(
-            OperationMetadata(
-                id = UUID.randomUUID().toString(),
-                name = "Aluguel",
-                description = "todo mes",
-                entry = LocalDate.of(2023,7,15),
-                conclusion = LocalDate.of(2023,12,15),
-                value = BigDecimal.valueOf(123),
-                recurrence = Recurrence(frequency = Frequency.MONTH, times = 5)
-            ),
-            OperationMetadata(
-                id = UUID.randomUUID().toString(),
-                name = "Drugs sell",
-                description = "every day, ",
-                entry = LocalDate.of(2023,1,1),
-                conclusion = LocalDate.of(2023,1,30),
-                value = BigDecimal.valueOf(123),
-                recurrence = Recurrence(frequency = Frequency.CUSTOM, interval = 7)
-            )
-        )
+        return apiFuture.get().documents.map { document ->
+            document.toObject(RemoteOperationMetadata::class.java).toDomain(document.id)
+        }
     }
 
     fun saveMetadata(operationMetadata: List<OperationMetadata>) {
         operationMetadata
-            .map { it.toEntity("aXTh7D9qGSNk1zjWtDrR") }
+            .map { it.toRemote("aXTh7D9qGSNk1zjWtDrR") }
             .forEach { collection.add(it) }
     }
+}
+
+fun LocalDate.inMilliseconds(offset: ZoneOffset = ZoneOffset.UTC): Long {
+    return LocalDateTime
+        .of(this, LocalTime.of(0, 0))
+        .toEpochSecond(offset)
+        .milliseconds
+        .inWholeMilliseconds
 }

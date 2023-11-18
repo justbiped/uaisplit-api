@@ -20,11 +20,11 @@ data class Recurrence(
     }
 
     companion object {
-        private const val recurrencePattern =
-            "frequency=(?<frequency>[A-Z]+);day=(?<day>[0-9]+);times=(?<times>[0-9]+);workday=(?<workday>true|false)"
+        private const val RECURRENCE_PATTERN =
+            "frequency=(?<frequency>[A-Z]+);day=(?<day>[0-9]+);times=(?<times>-?[0-9]+);workday=(?<workday>true|false)"
 
         fun parse(recurrence: String): Recurrence {
-            val regex = Regex(recurrencePattern)
+            val regex = Regex(RECURRENCE_PATTERN)
             val match = regex.find(recurrence) ?: throw Exception("Cant parse recurrence for value $recurrence")
             val (frequency, day, times, workday) = match.destructured
 

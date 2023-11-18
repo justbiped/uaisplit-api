@@ -4,6 +4,8 @@ import biped.works.tosplit.transaction.data.remote.RecurrenceRequest
 import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import com.google.cloud.Timestamp
+import java.math.BigDecimal
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.util.Date
@@ -42,12 +44,12 @@ fun RemoteOperationMetadata.toDomain(id: String) = OperationMetadata(
     recurrence = Recurrence.parse(recurrence)
 )
 
-fun OperationMetadata.toEntity(owner: String) = RemoteOperationMetadata(
+fun OperationMetadata.toRemote(owner: String) = RemoteOperationMetadata(
     name = name,
     description = description,
-    entry = entry.toTimestamp(),
+    entry = BigDecimal(entry.inMilliseconds()),
     owner = owner,
-    conclusion = conclusion.toTimestamp(),
+    conclusion = BigDecimal(conclusion.inMilliseconds()),
     recurrence = recurrence.toString(),
     value = value
 )
@@ -60,4 +62,7 @@ private fun LocalDate.toTimestamp(): Timestamp {
     }
 }
 
-private fun Timestamp.toLocalDate() = LocalDate.from(toDate().toInstant())
+private fun BigDecimal.toLocalDate() = Instant
+    .ofEpochMilli(this.toLong())
+    .atOffset(ZoneOffset.UTC)
+    .toLocalDate()
