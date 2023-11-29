@@ -17,12 +17,11 @@ class OperationRepository @Inject constructor(firestore: Firestore) {
         val apiFuture = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
             .whereGreaterThanOrEqualTo("entry", range.entry.inMilliseconds())
-         //   .whereLessThan("conclusion", range.conclusion.inMilliseconds())
             .get()
 
-        return apiFuture.get().documents.map { document ->
-            document.toObject(RemoteOperationMetadata::class.java).toDomain(document.id)
-        }
+        return apiFuture.get().documents
+            .map { document -> document.toObject(RemoteOperationMetadata::class.java).toDomain(document.id) }
+            .filter { it.conclusion.isBeforeOrEquals(range.conclusion) }
     }
 
     fun saveMetadata(operationMetadata: List<OperationMetadata>) {
