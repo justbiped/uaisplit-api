@@ -25,7 +25,7 @@ data class TransactionMetadata(
         val transactions = mutableListOf<Transaction>()
 
         while (due.isBeforeOrEquals(range.conclusion)) {
-            val operation = transaction(
+            val transaction = transaction(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
                 name = name,
@@ -34,7 +34,7 @@ data class TransactionMetadata(
                 value = value
             )
 
-            transactions.add(operation)
+            transactions.add(transaction)
             due = due.plusDays(recurrence.interval.toLong())
         }
 
@@ -48,7 +48,7 @@ data class TransactionMetadata(
         val transactions = mutableListOf<Transaction>()
 
         while (due.isBeforeOrEquals(endDate)) {
-            val operation = transaction(
+            val transaction = transaction(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
                 name = name,
@@ -57,7 +57,7 @@ data class TransactionMetadata(
                 value = value
             )
 
-            transactions.add(operation)
+            transactions.add(transaction)
             due = due.plusMonths(1)
         }
 

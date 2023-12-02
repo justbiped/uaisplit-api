@@ -24,8 +24,8 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
             .filter { it.conclusion.isBeforeOrEquals(range.conclusion) }
     }
 
-    fun saveMetadata(operationMetadata: List<TransactionMetadata>) {
-        operationMetadata
+    fun saveMetadata(transactionMetadata: List<TransactionMetadata>) {
+        transactionMetadata
             .map { it.toRemote("aXTh7D9qGSNk1zjWtDrR") }
             .forEach { collection.add(it) }
     }

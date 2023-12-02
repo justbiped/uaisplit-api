@@ -13,12 +13,12 @@ import org.springframework.core.annotation.Order
 class TransactionModule {
 
     @Bean
-    fun provideCreateOperationMetadataUseCase(
+    fun provideCreateTransactionMetadataUseCase(
         transactionRepository: TransactionRepository
     ) = CreateTransactionUseCase(transactionRepository)
 
     @Bean
-    fun provideListOperationUseCase(
+    fun provideListTransactionUseCase(
         transactionRepository: TransactionRepository
     ) = ListTransactionsUseCase(transactionRepository)
 

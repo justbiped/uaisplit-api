@@ -1,4 +1,4 @@
-package biped.works.tosplit.operation.data
+package biped.works.tosplit.transaction.data
 
 import biped.works.tosplit.transaction.data.Frequency
 import biped.works.tosplit.transaction.data.Recurrence
