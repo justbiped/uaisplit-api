@@ -2,7 +2,7 @@ package biped.works.tosplit.transaction.data.remote
 
 import java.math.BigDecimal
 
-data class RemoteOperationMetadata(
+data class RemoteTransactionMetadata(
     val name: String = "",
     val description: String = "",
     val entry: BigDecimal = BigDecimal.ZERO,

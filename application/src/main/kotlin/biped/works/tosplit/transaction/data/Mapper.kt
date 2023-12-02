@@ -1,7 +1,7 @@
 package biped.works.tosplit.transaction.data
 
 import biped.works.tosplit.transaction.data.remote.RecurrenceRequest
-import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
+import biped.works.tosplit.transaction.data.remote.RemoteTransactionMetadata
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import com.google.cloud.Timestamp
 import java.math.BigDecimal
@@ -15,7 +15,7 @@ fun TransactionRequest.toDomain(): Transaction {
         id = id,
         name = name,
         description = description,
-        entry = entry,
+        due = entry,
         value = value,
         recurrence = recurrence.toDomain()
     )
@@ -34,7 +34,7 @@ fun RecurrenceRequest.toDomain() = Recurrence(
     workday = workDay
 )
 
-fun RemoteOperationMetadata.toDomain(id: String) = OperationMetadata(
+fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
     id = id,
     name = name,
     description = description,
@@ -44,7 +44,7 @@ fun RemoteOperationMetadata.toDomain(id: String) = OperationMetadata(
     recurrence = Recurrence.parse(recurrence)
 )
 
-fun OperationMetadata.toRemote(owner: String) = RemoteOperationMetadata(
+fun TransactionMetadata.toRemote(owner: String) = RemoteTransactionMetadata(
     name = name,
     description = description,
     entry = BigDecimal(entry.inMilliseconds()),

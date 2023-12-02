@@ -1,8 +1,8 @@
 package biped.works.tosplit.transaction.controller
 
 import biped.works.tosplit.transaction.CreateTransactionUseCase
-import biped.works.tosplit.transaction.ListOperationsUseCase
-import biped.works.tosplit.transaction.data.Operation
+import biped.works.tosplit.transaction.ListTransactionsUseCase
+import biped.works.tosplit.transaction.data.Transaction
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import biped.works.tosplit.transaction.data.toDomain
 import java.time.LocalDate
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/transaction")
 class TransactionController(
     private val createTransaction: CreateTransactionUseCase,
-    private val listOperations: ListOperationsUseCase
+    private val listOperations: ListTransactionsUseCase
 ) {
     @GetMapping("/{entry}/{conclusion}")
-    fun getOperations(@PathVariable entry: String, @PathVariable conclusion: String): ResponseEntity<List<Operation>> {
+    fun getTransactions(@PathVariable entry: String, @PathVariable conclusion: String): ResponseEntity<List<Transaction>> {
         val operations = listOperations(entry.toLocalDate(), conclusion.toLocalDate())
         return ResponseEntity.ok(operations)
     }

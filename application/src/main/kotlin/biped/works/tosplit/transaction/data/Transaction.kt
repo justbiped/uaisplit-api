@@ -5,52 +5,55 @@ import java.time.LocalDate
 
 interface Transaction {
     val id: String
+    val metaId: String
     val name: String
     val description: String
-    val entry: LocalDate
+    val due: LocalDate
     val value: BigDecimal
     val recurrence: Recurrence
 
-    fun toMetadata(): List<OperationMetadata>
+    fun toMetadata(): List<TransactionMetadata>
 }
 
 fun transaction(
     id: String = "",
+    metaId: String = "",
     name: String = "",
     description: String = "",
-    entry: LocalDate = LocalDate.now(),
+    due: LocalDate = LocalDate.now(),
     value: BigDecimal = BigDecimal(0),
     recurrence: Recurrence = Recurrence()
 ) = object : Transaction {
     override val id: String = id
+    override val metaId: String = metaId
     override val name: String = name
     override val description: String = description
-    override val entry: LocalDate = entry
+    override val due: LocalDate = due
     override val value: BigDecimal = value
     override val recurrence: Recurrence = recurrence
-    override fun toMetadata() = emptyList<OperationMetadata>()
+    override fun toMetadata() = emptyList<TransactionMetadata>()
 }
 
 data class MonthTransaction(
     private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
-    override fun toMetadata(): List<OperationMetadata> {
+    override fun toMetadata(): List<TransactionMetadata> {
         val recurrence = transaction.recurrence
         val outDate = if (recurrence.isIndeterminate) {
             LocalDate.MAX
         } else {
-            transaction.entry
+            transaction.due
                 .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
         return listOf(
-            OperationMetadata(
+            TransactionMetadata(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.entry,
+                entry = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence
@@ -63,22 +66,22 @@ data class YearTransaction(
     private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
-    override fun toMetadata(): List<OperationMetadata> {
+    override fun toMetadata(): List<TransactionMetadata> {
         val recurrence = transaction.recurrence
         val outDate = if (recurrence.isIndeterminate) {
             LocalDate.MAX
         } else {
-            transaction.entry
+            transaction.due
                 .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
         return listOf(
-            OperationMetadata(
+            TransactionMetadata(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.entry,
+                entry = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence
@@ -91,22 +94,22 @@ data class CustomTransaction(
     private val transaction: Transaction = transaction()
 ) : Transaction by transaction {
 
-    override fun toMetadata(): List<OperationMetadata> {
+    override fun toMetadata(): List<TransactionMetadata> {
         val recurrence = transaction.recurrence
         val outDate = if (recurrence.isIndeterminate) {
             LocalDate.MAX
         } else {
-            transaction.entry
+            transaction.due
                 .apply { plusMonths(recurrence.times - 1L) }
                 .apply { withDayOfMonth(lengthOfMonth()) }
         }
 
         return listOf(
-            OperationMetadata(
+            TransactionMetadata(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.entry,
+                entry = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence

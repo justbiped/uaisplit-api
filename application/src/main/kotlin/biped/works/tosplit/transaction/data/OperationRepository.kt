@@ -1,6 +1,6 @@
 package biped.works.tosplit.transaction.data
 
-import biped.works.tosplit.transaction.data.remote.RemoteOperationMetadata
+import biped.works.tosplit.transaction.data.remote.RemoteTransactionMetadata
 import com.google.cloud.firestore.Firestore
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -9,22 +9,22 @@ import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
-class OperationRepository @Inject constructor(firestore: Firestore) {
+class TransactionRepository @Inject constructor(firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
-    fun getOperationMetadataList(range: Range): List<OperationMetadata> {
+    fun getTransactionMetadataList(range: Range): List<TransactionMetadata> {
         val apiFuture = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
             .whereGreaterThanOrEqualTo("entry", range.entry.inMilliseconds())
             .get()
 
         return apiFuture.get().documents
-            .map { document -> document.toObject(RemoteOperationMetadata::class.java).toDomain(document.id) }
+            .map { document -> document.toObject(RemoteTransactionMetadata::class.java).toDomain(document.id) }
             .filter { it.conclusion.isBeforeOrEquals(range.conclusion) }
     }
 
-    fun saveMetadata(operationMetadata: List<OperationMetadata>) {
+    fun saveMetadata(operationMetadata: List<TransactionMetadata>) {
         operationMetadata
             .map { it.toRemote("aXTh7D9qGSNk1zjWtDrR") }
             .forEach { collection.add(it) }
