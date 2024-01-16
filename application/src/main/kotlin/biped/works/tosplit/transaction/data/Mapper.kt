@@ -28,6 +28,7 @@ fun TransactionRequest.toDomain(): Transaction {
 }
 
 fun RecurrenceRequest.toDomain() = Recurrence(
+    start = LocalDate.parse(""),
     frequency = frequency,
     interval = day,
     times = count,
@@ -38,7 +39,7 @@ fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
     id = id,
     name = name,
     description = description,
-    entry = entry.toLocalDate(),
+    start = entry.toLocalDate(),
     conclusion = conclusion.toLocalDate(),
     value = value,
     recurrence = Recurrence.parse(recurrence)
@@ -47,7 +48,7 @@ fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
 fun TransactionMetadata.toRemote(owner: String) = RemoteTransactionMetadata(
     name = name,
     description = description,
-    entry = BigDecimal(entry.inMilliseconds()),
+    entry = BigDecimal(start.inMilliseconds()),
     owner = owner,
     conclusion = BigDecimal(conclusion.inMilliseconds()),
     recurrence = recurrence.toString(),

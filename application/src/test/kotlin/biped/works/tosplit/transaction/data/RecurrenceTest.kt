@@ -1,7 +1,5 @@
 package biped.works.tosplit.transaction.data
 
-import biped.works.tosplit.transaction.data.Frequency
-import biped.works.tosplit.transaction.data.Recurrence
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

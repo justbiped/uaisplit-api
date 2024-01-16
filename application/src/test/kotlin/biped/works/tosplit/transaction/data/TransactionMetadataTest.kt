@@ -21,23 +21,23 @@ class TransactionMetadataTest {
     @Test
     fun `create 5 month transaction for a 5 times recurrence`() {
         val recurrence = Recurrence(frequency = Frequency.MONTH, times = 5)
-        val range = Range(
-           entry =  LocalDate.of(2023, 1, 10),
-            conclusion = LocalDate.of(2023, 5, 10),
+        val timeSpan = TimeSpan(
+           start =  LocalDate.of(2023, 1, 10),
+            end = LocalDate.of(2023, 5, 10),
         )
 
         val transactions = metadataFixture(
-            entry = range.entry,
-            conclusion = range.conclusion,
+            entry = timeSpan.start,
+            conclusion = timeSpan.end,
             recurrence = recurrence
-        ).createTransactions(range)
+        ).createTransactions(timeSpan)
 
         assertThat(transactions).hasSize(5)
-        assertThat(transactions[0].due).isEqualTo(range.entry)
-        assertThat(transactions[1].due).isEqualTo(range.entry.plusMonths(1))
-        assertThat(transactions[2].due).isEqualTo(range.entry.plusMonths(2))
-        assertThat(transactions[3].due).isEqualTo(range.entry.plusMonths(3))
-        assertThat(transactions[4].due).isEqualTo(range.entry.plusMonths(4))
+        assertThat(transactions[0].due).isEqualTo(timeSpan.start)
+        assertThat(transactions[1].due).isEqualTo(timeSpan.start.plusMonths(1))
+        assertThat(transactions[2].due).isEqualTo(timeSpan.start.plusMonths(2))
+        assertThat(transactions[3].due).isEqualTo(timeSpan.start.plusMonths(3))
+        assertThat(transactions[4].due).isEqualTo(timeSpan.start.plusMonths(4))
     }
 
     @Test
@@ -64,7 +64,7 @@ class TransactionMetadataTest {
         val recurrence = Recurrence(frequency = Frequency.CUSTOM, interval = 7)
 
         val transactions =
-            metadataFixture(entry = entry, recurrence = recurrence).createTransactions(Range(entry, conclusion))
+            metadataFixture(entry = entry, recurrence = recurrence).createTransactions(TimeSpan(entry, conclusion))
 
         assertThat(transactions).hasSize(5)
         assertThat(transactions[0].due).isEqualTo(LocalDate.of(2023, 1, 1))

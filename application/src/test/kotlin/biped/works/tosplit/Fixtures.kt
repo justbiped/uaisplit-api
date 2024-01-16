@@ -18,7 +18,7 @@ fun metadataFixture(
     id = id,
     name = name,
     description = description,
-    entry = entry,
+    start = entry,
     conclusion = conclusion,
     value = value,
     recurrence = recurrence,

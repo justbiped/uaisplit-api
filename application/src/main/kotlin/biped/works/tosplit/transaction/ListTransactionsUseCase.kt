@@ -2,7 +2,7 @@ package biped.works.tosplit.transaction
 
 import biped.works.tosplit.transaction.data.Transaction
 import biped.works.tosplit.transaction.data.TransactionRepository
-import biped.works.tosplit.transaction.data.Range
+import biped.works.tosplit.transaction.data.TimeSpan
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -11,11 +11,11 @@ class ListTransactionsUseCase @Inject constructor(
 ) {
 
     operator fun invoke(entry: LocalDate, conclusion: LocalDate): List<Transaction> {
-        val range = Range(entry, conclusion)
+        val timeSpan = TimeSpan(entry, conclusion)
         return transactionRepository
-            .getTransactionMetadataList(range)
+            .getTransactionMetadataList(timeSpan)
             .flatMap {
-                it.createTransactions(range)
+                it.createTransactions(timeSpan)
             }
     }
 }

@@ -13,15 +13,15 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
-    fun getTransactionMetadataList(range: Range): List<TransactionMetadata> {
+    fun getTransactionMetadataList(timeSpan: TimeSpan): List<TransactionMetadata> {
         val apiFuture = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
-            .whereGreaterThanOrEqualTo("entry", range.entry.inMilliseconds())
+            .whereGreaterThanOrEqualTo("entry", timeSpan.start.inMilliseconds())
             .get()
 
         return apiFuture.get().documents
             .map { document -> document.toObject(RemoteTransactionMetadata::class.java).toDomain(document.id) }
-            .filter { it.conclusion.isBeforeOrEquals(range.conclusion) }
+            .filter { it.conclusion.isBeforeOrEquals(timeSpan.end) }
     }
 
     fun saveMetadata(transactionMetadata: List<TransactionMetadata>) {

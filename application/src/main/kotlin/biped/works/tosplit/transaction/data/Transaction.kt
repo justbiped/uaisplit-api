@@ -53,7 +53,7 @@ data class MonthTransaction(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.due,
+                start = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence
@@ -81,7 +81,7 @@ data class YearTransaction(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.due,
+                start = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence
@@ -109,7 +109,7 @@ data class CustomTransaction(
                 id = transaction.id,
                 name = transaction.name,
                 description = transaction.description,
-                entry = transaction.due,
+                start = transaction.due,
                 conclusion = outDate,
                 value = transaction.value,
                 recurrence = transaction.recurrence
