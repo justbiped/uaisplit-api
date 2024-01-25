@@ -22,7 +22,12 @@ fun transaction(
     description: String = "",
     due: LocalDate = LocalDate.now(),
     value: BigDecimal = BigDecimal(0),
-    recurrence: Recurrence = Recurrence()
+    recurrence: Recurrence = Recurrence(
+        LocalDate.now(),
+        LocalDate.MAX,
+        Frequency(1, false),
+        type = Recurrence.Type.CUSTOM
+    )
 ) = object : Transaction {
     override val id: String = id
     override val metaId: String = metaId
@@ -33,90 +38,90 @@ fun transaction(
     override val recurrence: Recurrence = recurrence
     override fun toMetadata() = emptyList<TransactionMetadata>()
 }
-
-data class MonthTransaction(
-    private val transaction: Transaction = transaction()
-) : Transaction by transaction {
-
-    override fun toMetadata(): List<TransactionMetadata> {
-        val recurrence = transaction.recurrence
-        val outDate = if (recurrence.isIndeterminate) {
-            LocalDate.MAX
-        } else {
-            transaction.due
-                .apply { plusMonths(recurrence.times - 1L) }
-                .apply { withDayOfMonth(lengthOfMonth()) }
-        }
-
-        return listOf(
-            TransactionMetadata(
-                id = transaction.id,
-                name = transaction.name,
-                description = transaction.description,
-                start = transaction.due,
-                conclusion = outDate,
-                value = transaction.value,
-                recurrence = transaction.recurrence
-            )
-        )
-    }
-}
-
-data class YearTransaction(
-    private val transaction: Transaction = transaction()
-) : Transaction by transaction {
-
-    override fun toMetadata(): List<TransactionMetadata> {
-        val recurrence = transaction.recurrence
-        val outDate = if (recurrence.isIndeterminate) {
-            LocalDate.MAX
-        } else {
-            transaction.due
-                .apply { plusMonths(recurrence.times - 1L) }
-                .apply { withDayOfMonth(lengthOfMonth()) }
-        }
-
-        return listOf(
-            TransactionMetadata(
-                id = transaction.id,
-                name = transaction.name,
-                description = transaction.description,
-                start = transaction.due,
-                conclusion = outDate,
-                value = transaction.value,
-                recurrence = transaction.recurrence
-            )
-        )
-    }
-}
-
-data class CustomTransaction(
-    private val transaction: Transaction = transaction()
-) : Transaction by transaction {
-
-    override fun toMetadata(): List<TransactionMetadata> {
-        val recurrence = transaction.recurrence
-        val outDate = if (recurrence.isIndeterminate) {
-            LocalDate.MAX
-        } else {
-            transaction.due
-                .apply { plusMonths(recurrence.times - 1L) }
-                .apply { withDayOfMonth(lengthOfMonth()) }
-        }
-
-        return listOf(
-            TransactionMetadata(
-                id = transaction.id,
-                name = transaction.name,
-                description = transaction.description,
-                start = transaction.due,
-                conclusion = outDate,
-                value = transaction.value,
-                recurrence = transaction.recurrence
-            )
-        )
-    }
-}
+//
+//data class MonthTransaction(
+//    private val transaction: Transaction = transaction()
+//) : Transaction by transaction {
+//
+//    override fun toMetadata(): List<TransactionMetadata> {
+//        val recurrence = transaction.recurrence
+//        val outDate = if (recurrence.isIndeterminate) {
+//            LocalDate.MAX
+//        } else {
+//            transaction.due
+//                .apply { plusMonths(recurrence.times - 1L) }
+//                .apply { withDayOfMonth(lengthOfMonth()) }
+//        }
+//
+//        return listOf(
+//            TransactionMetadata(
+//                id = transaction.id,
+//                name = transaction.name,
+//                description = transaction.description,
+//                start = transaction.due,
+//                conclusion = outDate,
+//                value = transaction.value,
+//                recurrence = transaction.recurrence
+//            )
+//        )
+//    }
+//}
+//
+//data class YearTransaction(
+//    private val transaction: Transaction = transaction()
+//) : Transaction by transaction {
+//
+//    override fun toMetadata(): List<TransactionMetadata> {
+//        val recurrence = transaction.recurrence
+//        val outDate = if (recurrence.isIndeterminate) {
+//            LocalDate.MAX
+//        } else {
+//            transaction.due
+//                .apply { plusMonths(recurrence.times - 1L) }
+//                .apply { withDayOfMonth(lengthOfMonth()) }
+//        }
+//
+//        return listOf(
+//            TransactionMetadata(
+//                id = transaction.id,
+//                name = transaction.name,
+//                description = transaction.description,
+//                start = transaction.due,
+//                conclusion = outDate,
+//                value = transaction.value,
+//                recurrence = transaction.recurrence
+//            )
+//        )
+//    }
+//}
+//
+//data class CustomTransaction(
+//    private val transaction: Transaction = transaction()
+//) : Transaction by transaction {
+//
+//    override fun toMetadata(): List<TransactionMetadata> {
+//        val recurrence = transaction.recurrence
+//        val outDate = if (recurrence.isIndeterminate) {
+//            LocalDate.MAX
+//        } else {
+//            transaction.due
+//                .apply { plusMonths(recurrence.times - 1L) }
+//                .apply { withDayOfMonth(lengthOfMonth()) }
+//        }
+//
+//        return listOf(
+//            TransactionMetadata(
+//                id = transaction.id,
+//                name = transaction.name,
+//                description = transaction.description,
+//                start = transaction.due,
+//                conclusion = outDate,
+//                value = transaction.value,
+//                recurrence = transaction.recurrence
+//            )
+//        )
+//    }
+//}
 
 //data class Reccurence(val frequency: ){
 //frequency=month;day=16;workday=true;count=3

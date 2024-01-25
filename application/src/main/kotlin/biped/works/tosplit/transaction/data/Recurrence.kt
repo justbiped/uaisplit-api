@@ -2,17 +2,54 @@ package biped.works.tosplit.transaction.data
 
 import java.time.LocalDate
 
-data class Recurrence(
-    val start: LocalDate = LocalDate.now(),
-    val frequency: Frequency = Frequency.CUSTOM,
-    val interval: Int = 7,
-    val times: Int = -1,
-    val workday: Boolean = false
-) {
+interface Recurrence {
+    val start: LocalDate
+    val conclusion: LocalDate
+    val frequency: String
+    val type: Type
+    val startDay: Int get() = start.dayOfMonth
 
-    val isIndeterminate = times == -1
+    fun nextDueDate(timeSpan: TimeSpan): LocalDate
+    fun generateDupDates(timeSpan: TimeSpan): List<LocalDate>
 
-    fun nextDueDate(timeSpan: TimeSpan): LocalDate {
+    enum class Type {
+        YEARLY,
+        MONTHLY,
+        CUSTOM
+    }
+}
+
+fun recurrence(
+    start: LocalDate,
+    conclusion: LocalDate,
+    frequency: String,
+    type: Recurrence.Type,
+) = object : Recurrence {
+    override val start: LocalDate = start
+    override val conclusion: LocalDate = conclusion
+    override val frequency: String = frequency
+    override val type: Recurrence.Type = type
+
+    override fun nextDueDate(timeSpan: TimeSpan): LocalDate = LocalDate.now()
+    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> = emptyList()
+}
+
+data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by recurrence {
+
+    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> {
+        var dueDate = recurrence.nextDueDate(timeSpan)
+        val endDate = DateTools.min(conclusion, timeSpan.end)
+        val dueDates = mutableListOf<LocalDate>()
+
+        while (dueDate.isBeforeOrEquals(endDate)) {
+            dueDates.add(dueDate)
+            dueDate = dueDate.plusMonths(1)
+        }
+
+        return dueDates
+    }
+
+    override fun nextDueDate(timeSpan: TimeSpan): LocalDate {
         val startDay = start.dayOfMonth
         return if (timeSpan.start.isBeforeOrEquals(start)) {
             start
@@ -22,39 +59,36 @@ data class Recurrence(
         }
     }
 
-    override fun toString(): String {
-        val builder = StringBuilder()
-        builder.append("start=$start;")
-        builder.append("frequency=$frequency;")
-        builder.append("day=$interval;")
-        builder.append("times=$times;")
-        builder.append("workday=$workday")
+    private fun parseFrequency(): Frequency {
+        val regex = Regex("times=(?<times>-?[0-9]+);workday=(?<workday>true|false)")
+        val match = regex.find(frequency) ?: throw Exception("Cant parse recurrence for value $frequency")
 
-        return builder.toString()
+        val (times, workday) = match.destructured
+        return Frequency(times.toInt(), workday.toBoolean())
     }
 
-    companion object {
-        private const val RECURRENCE_PATTERN =
-            "start=(?<start>[0-9]{4}-[0-9]{2}-[0-9]{2});frequency=(?<frequency>[A-Z]+);day=(?<day>[0-9]+);times=(?<times>-?[0-9]+);workday=(?<workday>true|false)"
-
-        fun parse(recurrence: String): Recurrence {
-            val regex = Regex(RECURRENCE_PATTERN)
-            val match = regex.find(recurrence) ?: throw Exception("Cant parse recurrence for value $recurrence")
-            val (start, frequency, day, times, workday) = match.destructured
-
-            return Recurrence(
-                start = LocalDate.parse(start),
-                frequency = Frequency.valueOf(frequency),
-                interval = day.toInt(),
-                times = times.toInt(),
-                workday = workday.toBoolean()
-            )
-        }
-    }
+    private data class Frequency(private val times: Int, private val workday: Boolean)
 }
 
-enum class Frequency {
-    YEAR,
-    MONTH,
-    CUSTOM
+data class CustomRecurrence(private val recurrence: Recurrence) : Recurrence by recurrence {
+
+    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> {
+        var due = getDueDate(timeSpan)
+        val dueDates = mutableListOf<LocalDate>()
+
+        while (due.isBeforeOrEquals(timeSpan.end)) {
+            dueDates.add(due)
+            due = due.plusDays(7)
+        }
+        return dueDates
+    }
+
+    private fun getDueDate(timeSpan: TimeSpan): LocalDate {
+        return if (timeSpan.start.isBeforeOrEquals(start)) start else createDueDate(timeSpan)
+    }
+
+    private fun createDueDate(timeSpan: TimeSpan): LocalDate {
+        val dueDate = if (timeSpan.startDay > startDay) timeSpan.start.plusMonths(1) else timeSpan.start
+        return dueDate.withAdjustableDayOfMonth(startDay)
+    }
 }
