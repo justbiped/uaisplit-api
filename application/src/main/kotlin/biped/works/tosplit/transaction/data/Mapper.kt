@@ -15,16 +15,15 @@ fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
 )
 
 private fun RemoteRecurrence.toDomain(): Recurrence {
-    val recurrenceType = Recurrence.Type.valueOf(type)
+    val recurrenceType = RemoteRecurrence.Type.valueOf(type)
     val recurrence = recurrence(
         start = start.toLocalDate(),
         conclusion = conclusion.toLocalDate(),
         frequency = frequency,
-        type = recurrenceType
     )
 
     return when (recurrenceType) {
-        Recurrence.Type.MONTHLY -> MonthlyRecurrence(recurrence)
+        RemoteRecurrence.Type.MONTHLY -> MonthlyRecurrence(recurrence)
         else -> throw Exception("Recurrence not supported")
     }
 }

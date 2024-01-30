@@ -2,7 +2,9 @@ package biped.works.tosplit
 
 import biped.works.tosplit.transaction.data.Recurrence
 import biped.works.tosplit.transaction.data.TransactionMetadata
+import biped.works.tosplit.transaction.data.recurrence
 import biped.works.tosplit.transaction.data.transaction
+import org.apache.tomcat.jni.Local
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -10,16 +12,12 @@ fun metadataFixture(
     id: String = "",
     name: String = "Car rent",
     description: String = "Month car rent",
-    entry: LocalDate = LocalDate.of(2023, 1, 10),
-    conclusion: LocalDate = LocalDate.of(2023, 6, 10),
     value: BigDecimal = BigDecimal.valueOf(222.00),
-    recurrence: Recurrence = Recurrence()
+    recurrence: Recurrence = recurrence(LocalDate.now(), LocalDate.now(), "")
 ) = TransactionMetadata(
     id = id,
     name = name,
     description = description,
-    start = entry,
-    conclusion = conclusion,
     value = value,
     recurrence = recurrence,
 )

@@ -1,5 +1,6 @@
 package biped.works.tosplit.transaction.data
 
+import jdk.jfr.Frequency
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -22,12 +23,7 @@ fun transaction(
     description: String = "",
     due: LocalDate = LocalDate.now(),
     value: BigDecimal = BigDecimal(0),
-    recurrence: Recurrence = Recurrence(
-        LocalDate.now(),
-        LocalDate.MAX,
-        Frequency(1, false),
-        type = Recurrence.Type.CUSTOM
-    )
+    recurrence: Recurrence = recurrence(LocalDate.now(), LocalDate.MAX, "")
 ) = object : Transaction {
     override val id: String = id
     override val metaId: String = metaId

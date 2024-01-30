@@ -17,4 +17,12 @@ data class RemoteRecurrence(
     val conclusion: BigDecimal,
     val frequency: String,
     val type: String
-)
+) {
+    enum class Type {
+        YEARLY,
+        MONTHLY,
+        CUSTOM
+    }
+}
+
+
