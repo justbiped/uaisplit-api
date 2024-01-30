@@ -61,4 +61,23 @@ class MonthlyRecurrenceTest {
             LocalDate.parse("2024-03-10"),
         )
     }
+
+    @Test
+    fun `generates due dates 01-10, 02-10 for 3 a months recurrence with time span 01-10 to 02-10`() {
+        val timeSpan = TimeSpan(start = LocalDate.parse("2024-01-10"), LocalDate.parse("2024-02-10"))
+        val recurrence = recurrence(
+            start = LocalDate.parse("2024-01-10"),
+            conclusion = LocalDate.parse("2024-03-10"),
+            frequency = ""
+        )
+        val monthlyRecurrence = MonthlyRecurrence(recurrence)
+
+        val dueDates = monthlyRecurrence.generateDupDates(timeSpan)
+
+        assertThat(dueDates).hasSize(2)
+        assertThat(dueDates).containsExactly(
+            LocalDate.parse("2024-01-10"),
+            LocalDate.parse("2024-02-10"),
+        )
+    }
 }
