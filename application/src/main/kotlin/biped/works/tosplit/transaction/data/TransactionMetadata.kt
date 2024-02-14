@@ -14,10 +14,9 @@ data class TransactionMetadata(
 ) {
     val conclusion = recurrence.conclusion
 
-    fun createTransactions(timeSpan: TimeSpan = TimeSpan()): List<Transaction> {
-        val transactions = mutableListOf<Transaction>()
-        recurrence.generateDupDates(timeSpan).forEach { dueDate ->
-            val transaction = transaction(
+    fun createTransactions(timeSpan: TimeSpan = TimeSpan()) = recurrence.generateDupDates(timeSpan)
+        .map { dueDate ->
+            transaction(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
                 name = name,
@@ -25,11 +24,7 @@ data class TransactionMetadata(
                 due = dueDate,
                 value = value
             )
-            transactions.add(transaction)
         }
-
-        return transactions
-    }
 }
 
 fun LocalDate.withAdjustableDayOfMonth(dayOfMonth: Int): LocalDate {

@@ -6,8 +6,6 @@ import javax.inject.Inject
 class CreateTransactionUseCase @Inject constructor(
     private val transactionRepository: TransactionRepository
 ) {
-    operator fun invoke(transaction: Transaction) {
-//        val transactionMetadata = transaction.toMetadata()
-//        transactionRepository.saveMetadata(transactionMetadata)
-    }
+//    operator fun invoke(transaction: Transaction) {
+//    }
 }

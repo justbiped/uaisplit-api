@@ -1,8 +1,7 @@
 package biped.works.tosplit.transaction.controller
 
-import biped.works.tosplit.transaction.CreateTransactionUseCase
 import biped.works.tosplit.transaction.ListTransactionsUseCase
-import biped.works.tosplit.transaction.Transaction
+import biped.works.tosplit.transaction.data.Transaction
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

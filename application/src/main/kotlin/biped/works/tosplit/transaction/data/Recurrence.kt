@@ -24,7 +24,6 @@ fun recurrence(
 }
 
 data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by recurrence {
-
     override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> {
         var dueDate = nextDueDate(timeSpan)
         val endDate = DateTools.min(conclusion, timeSpan.end)
@@ -37,7 +36,7 @@ data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by
         return dueDates
     }
 
-    private  fun nextDueDate(timeSpan: TimeSpan): LocalDate {
+    private fun nextDueDate(timeSpan: TimeSpan): LocalDate {
         val startDay = start.dayOfMonth
         return if (timeSpan.start.isBeforeOrEquals(start)) {
             start
@@ -45,14 +44,6 @@ data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by
             val dueDate = if (timeSpan.startDay > startDay) timeSpan.start.plusMonths(1) else timeSpan.start
             return dueDate.withAdjustableDayOfMonth(startDay)
         }
-    }
-
-    private fun parseFrequency(): Frequency {
-        val regex = Regex("times=(?<times>-?[0-9]+);workday=(?<workday>true|false)")
-        val match = regex.find(frequency) ?: throw Exception("Cant parse recurrence for value $frequency")
-
-        val (times, workday) = match.destructured
-        return Frequency(times.toInt(), workday.toBoolean())
     }
 
     private data class Frequency(private val times: Int, private val workday: Boolean)
