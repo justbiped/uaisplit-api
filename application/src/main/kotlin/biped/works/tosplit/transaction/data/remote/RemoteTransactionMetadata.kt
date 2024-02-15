@@ -13,8 +13,6 @@ data class RemoteTransactionMetadata(
 )
 
 data class RemoteRecurrence(
-    val start: String,
-    val conclusion: String,
     val frequency: String,
     val type: String
 ) {

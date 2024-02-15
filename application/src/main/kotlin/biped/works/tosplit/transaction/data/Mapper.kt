@@ -2,7 +2,6 @@ package biped.works.tosplit.transaction.data
 
 import biped.works.tosplit.transaction.data.remote.RemoteRecurrence
 import biped.works.tosplit.transaction.data.remote.RemoteTransactionMetadata
-import org.apache.tomcat.jni.Local
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDate
@@ -13,15 +12,17 @@ fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
     name = name,
     description = description,
     value = value,
-    recurrence = recurrence.toDomain()
+    recurrence = recurrence.toDomain(start, conclusion)
 )
 
-private fun RemoteRecurrence.toDomain(): Recurrence {
-    val conclusion = if (conclusion.isEmpty()) LocalDate.MAX else LocalDate.parse(conclusion)
+private fun RemoteRecurrence.toDomain(
+    start: BigDecimal,
+    conclusion: BigDecimal
+): Recurrence {
     val recurrenceType = RemoteRecurrence.Type.valueOf(type)
     val recurrence = recurrence(
-        start = LocalDate.parse(start),
-        conclusion = conclusion,
+        start = start.toLocalDate(),
+        conclusion = if (conclusion == BigDecimal(-1)) LocalDate.MAX else conclusion.toLocalDate(),
         frequency = frequency,
     )
 
