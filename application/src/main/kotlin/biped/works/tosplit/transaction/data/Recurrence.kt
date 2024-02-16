@@ -8,7 +8,7 @@ interface Recurrence {
     val frequency: String
     val startDay: Int get() = start.dayOfMonth
 
-    fun generateDupDates(timeSpan: TimeSpan): List<LocalDate>
+    fun generateDueDates(timeSpan: TimeSpan): List<LocalDate>
 }
 
 fun recurrence(
@@ -20,11 +20,11 @@ fun recurrence(
     override val conclusion: LocalDate = conclusion
     override val frequency: String = frequency
 
-    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> = emptyList()
+    override fun generateDueDates(timeSpan: TimeSpan): List<LocalDate> = emptyList()
 }
 
 data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by recurrence {
-    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> {
+    override fun generateDueDates(timeSpan: TimeSpan): List<LocalDate> {
         var dueDate = nextDueDate(timeSpan)
         val endDate = DateTools.min(conclusion, timeSpan.end)
         val dueDates = mutableListOf<LocalDate>()
@@ -51,7 +51,7 @@ data class MonthlyRecurrence(private val recurrence: Recurrence) : Recurrence by
 
 data class CustomRecurrence(private val recurrence: Recurrence) : Recurrence by recurrence {
 
-    override fun generateDupDates(timeSpan: TimeSpan): List<LocalDate> {
+    override fun generateDueDates(timeSpan: TimeSpan): List<LocalDate> {
         var due = getDueDate(timeSpan)
         val dueDates = mutableListOf<LocalDate>()
 

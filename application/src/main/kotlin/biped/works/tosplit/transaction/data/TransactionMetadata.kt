@@ -14,7 +14,7 @@ data class TransactionMetadata(
 ) {
     val conclusion = recurrence.conclusion
 
-    fun createTransactions(timeSpan: TimeSpan = TimeSpan()) = recurrence.generateDupDates(timeSpan)
+    fun createTransactions(timeSpan: TimeSpan = TimeSpan()) = recurrence.generateDueDates(timeSpan)
         .map { dueDate ->
             transaction(
                 id = UUID.randomUUID().toString(),

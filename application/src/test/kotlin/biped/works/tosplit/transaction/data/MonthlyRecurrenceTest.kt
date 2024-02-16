@@ -17,7 +17,7 @@ class MonthlyRecurrenceTest {
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
-        val dueDates = monthlyRecurrence.generateDupDates(TimeSpan(start = LocalDate.parse("2024-01-01")))
+        val dueDates = monthlyRecurrence.generateDueDates(TimeSpan(start = LocalDate.parse("2024-01-01")))
 
         assertThat(dueDates).hasSize(1)
         assertThat(dueDates.first()).isEqualTo(timeSpan)
@@ -33,7 +33,7 @@ class MonthlyRecurrenceTest {
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
-        val dueDates = monthlyRecurrence.generateDupDates(timeSpan)
+        val dueDates = monthlyRecurrence.generateDueDates(timeSpan)
 
         assertThat(dueDates).hasSize(3)
         assertThat(dueDates).containsExactly(
@@ -53,7 +53,7 @@ class MonthlyRecurrenceTest {
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
-        val dueDates = monthlyRecurrence.generateDupDates(timeSpan)
+        val dueDates = monthlyRecurrence.generateDueDates(timeSpan)
 
         assertThat(dueDates).hasSize(2)
         assertThat(dueDates).containsExactly(
@@ -72,7 +72,7 @@ class MonthlyRecurrenceTest {
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
-        val dueDates = monthlyRecurrence.generateDupDates(timeSpan)
+        val dueDates = monthlyRecurrence.generateDueDates(timeSpan)
 
         assertThat(dueDates).hasSize(2)
         assertThat(dueDates).containsExactly(
