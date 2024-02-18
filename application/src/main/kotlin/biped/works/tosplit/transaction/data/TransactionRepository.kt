@@ -19,16 +19,16 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
         val transactionMetadataQuery = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
             .whereGreaterThanOrEqualTo("start", timeSpan.start.inMilliseconds())
-            .whereLessThanOrEqualTo("start", timeSpan.end.inMilliseconds())
             .get()
 
         return transactionMetadataQuery.get().documents
-            .map { document ->
-                document
-                    .toObject<RemoteTransactionMetadata>()
-                    .toDomain(document.id)
-            }
+            .map { document -> parseDocument(document) }
+            .filter { it.conclusion.isBeforeOrEquals(timeSpan.end) }
     }
+
+    private fun parseDocument(document: QueryDocumentSnapshot) = document
+        .toObject<RemoteTransactionMetadata>()
+        .toDomain(document.id)
 }
 
 inline fun <reified T> QueryDocumentSnapshot.toObject(): T {
