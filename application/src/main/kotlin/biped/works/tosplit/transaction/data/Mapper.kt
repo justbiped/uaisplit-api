@@ -6,6 +6,7 @@ import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
+import kotlin.math.absoluteValue
 
 fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
     id = id,
@@ -22,7 +23,7 @@ private fun RemoteRecurrence.toDomain(
     val recurrenceType = RemoteRecurrence.Type.valueOf(type)
     val recurrence = recurrence(
         start = start.toLocalDate(),
-        conclusion = if (conclusion == BigDecimal(-1)) LocalDate.MAX else conclusion.toLocalDate(),
+        conclusion = conclusion.toLocalDate(),
         frequency = frequency,
     )
 
@@ -33,6 +34,6 @@ private fun RemoteRecurrence.toDomain(
 }
 
 private fun BigDecimal.toLocalDate() = Instant
-    .ofEpochMilli(this.toLong())
+    .ofEpochMilli(this.toLong().absoluteValue)
     .atOffset(ZoneOffset.UTC)
     .toLocalDate()

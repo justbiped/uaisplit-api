@@ -23,7 +23,7 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
 
         return transactionMetadataQuery.get().documents
             .map { document -> parseDocument(document) }
-            .filter { it.conclusion.isBeforeOrEquals(timeSpan.end) }
+            .filter { timeSpan.end.isBeforeOrEquals(it.conclusion) }
     }
 
     private fun parseDocument(document: QueryDocumentSnapshot) = document

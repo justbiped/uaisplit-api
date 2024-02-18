@@ -1,0 +1,12 @@
+{
+  "owner": "aXTh7D9qGSNk1zjWtDrR",
+  "recurrence": {
+    "type": "MONTHLY",
+    "frequency": "times\u003d-1;workday\u003dfalse"
+  },
+  "conclusion": 9.223372036854776E18,
+  "name": "\"Opa\"",
+  "start": 1704067200,
+  "description": "Aluguel",
+  "value": 2800
+}
