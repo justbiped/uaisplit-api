@@ -18,13 +18,15 @@ data class TransactionMetadata(
 
     fun createTransactions(timeSpan: TimeSpan = TimeSpan()) = recurrence.generateDueDates(timeSpan)
         .map { dueDate ->
-            transaction(
+            Transaction(
                 id = UUID.randomUUID().toString(),
                 metaId = id,
+                owner = owner,
                 name = name,
                 description = description,
                 due = dueDate,
-                value = value
+                value = value,
+                recurrence = recurrence
             )
         }
 }

@@ -2,7 +2,7 @@ package biped.works.tosplit.transaction.data
 
 import biped.works.tosplit.core.toEpochSecond
 import biped.works.tosplit.core.toObject
-import biped.works.tosplit.transaction.data.remote.RemoteTransactionMetadata
+import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
 import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.QueryDocumentSnapshot
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
     }
 
     private fun parseDocument(document: QueryDocumentSnapshot) = document
-        .toObject<RemoteTransactionMetadata>()
+        .toObject<TransactionMetadataStore>()
         .toDomain(document.id)
 
     fun saveTransactionMetadata(transactionMetadata: TransactionMetadata) {

@@ -2,38 +2,22 @@ package biped.works.tosplit.transaction.data
 
 import biped.works.tosplit.core.toEpochSecond
 import biped.works.tosplit.transaction.data.remote.RemoteRecurrence
-import biped.works.tosplit.transaction.data.remote.RemoteTransactionMetadata
+import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
+import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import com.google.cloud.Timestamp
 import java.time.LocalDate
 import java.time.ZoneId
 
-fun RemoteTransactionMetadata.toDomain(id: String) = TransactionMetadata(
+fun TransactionMetadataStore.toDomain(id: String) = TransactionMetadata(
     id = id,
     owner = owner,
     name = name,
     description = description,
     value = value,
-    recurrence = recurrence.toDomain(start, conclusion)
+    recurrence = recurrence.toDomain(start)
 )
 
-private fun RemoteRecurrence.toDomain(
-    start: Timestamp,
-    conclusion: Timestamp
-): Recurrence {
-    val recurrenceType = RemoteRecurrence.Type.valueOf(type)
-    val recurrence = recurrence(
-        start = start.toLocalDate(),
-        conclusion = conclusion.toLocalDate(),
-        frequency = frequency,
-    )
-
-    return when (recurrenceType) {
-        RemoteRecurrence.Type.MONTHLY -> MonthlyRecurrence(recurrence)
-        else -> throw Exception("Recurrence not supported")
-    }
-}
-
-fun TransactionMetadata.toRemote() = RemoteTransactionMetadata(
+fun TransactionMetadata.toRemote() = TransactionMetadataStore(
     name = name,
     description = description,
     start = start.toTimestamp(),
@@ -42,6 +26,44 @@ fun TransactionMetadata.toRemote() = RemoteTransactionMetadata(
     recurrence = recurrence.toRemote(),
     value = value,
 )
+
+fun TransactionRequest.toDomain() = Transaction(
+    id = id,
+    owner = owner,
+    metaId = metaId,
+    name = name,
+    description = description,
+    due = due,
+    value = value,
+    recurrence = recurrence.toDomain(due)
+)
+
+private fun RemoteRecurrence.toDomain(start: Timestamp): Recurrence {
+    val recurrenceType = RemoteRecurrence.Type.valueOf(type)
+    val recurrence = recurrence(
+        start = start.toLocalDate(),
+        frequency = frequency,
+    )
+
+    return createRecurrence(recurrenceType, recurrence)
+}
+
+fun RemoteRecurrence.toDomain(due: LocalDate): Recurrence {
+    val recurrenceType = RemoteRecurrence.Type.valueOf(type)
+    val recurrence = recurrence(start = due, frequency = frequency)
+
+    return createRecurrence(recurrenceType, recurrence)
+}
+
+private fun createRecurrence(
+    recurrenceType: RemoteRecurrence.Type,
+    recurrence: Recurrence
+): Recurrence {
+    return when (recurrenceType) {
+        RemoteRecurrence.Type.MONTHLY -> MonthlyRecurrence(recurrence)
+        else -> throw Exception("Recurrence not supported")
+    }
+}
 
 private fun Recurrence.toRemote(): RemoteRecurrence {
     val type = when (this) {

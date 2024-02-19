@@ -5,6 +5,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 
+fun String.toLocalDate() = LocalDate.parse(this)
+
 fun LocalDate.toEpochSecond(offset: ZoneOffset = ZoneOffset.UTC): Long {
     return LocalDateTime
         .of(this, LocalTime.of(0, 0))

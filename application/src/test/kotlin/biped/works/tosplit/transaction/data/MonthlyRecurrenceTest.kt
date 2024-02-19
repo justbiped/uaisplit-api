@@ -9,18 +9,18 @@ class MonthlyRecurrenceTest {
 
     @Test
     fun `returns 01-10 date for one time recurrence matching time span 01-10 to infinity`() {
-        val timeSpan = TimeSpan(start = LocalDate.parse("2024-01-10"))
         val recurrence = recurrence(
             start = LocalDate.parse("2024-01-10"),
-            conclusion = LocalDate.parse("2024-01-10"),
-            frequency = ""
+            frequency = "times=1"
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
         val dueDates = monthlyRecurrence.generateDueDates(TimeSpan(start = LocalDate.parse("2024-01-01")))
 
         assertThat(dueDates).hasSize(1)
-        assertThat(dueDates.first()).isEqualTo(timeSpan)
+        assertThat(dueDates.first()).isEqualTo(
+            LocalDate.parse("2024-01-10")
+        )
     }
 
     @Test
@@ -28,8 +28,7 @@ class MonthlyRecurrenceTest {
         val timeSpan = TimeSpan(start = LocalDate.parse("2024-01-10"))
         val recurrence = recurrence(
             start = LocalDate.parse("2024-01-10"),
-            conclusion = LocalDate.parse("2024-03-10"),
-            frequency = ""
+            frequency = "times=3"
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
@@ -48,8 +47,7 @@ class MonthlyRecurrenceTest {
         val timeSpan = TimeSpan(start = LocalDate.parse("2024-01-11"))
         val recurrence = recurrence(
             start = LocalDate.parse("2024-01-10"),
-            conclusion = LocalDate.parse("2024-03-10"),
-            frequency = ""
+            frequency = "times=3"
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
@@ -67,8 +65,7 @@ class MonthlyRecurrenceTest {
         val timeSpan = TimeSpan(start = LocalDate.parse("2024-01-10"), LocalDate.parse("2024-02-10"))
         val recurrence = recurrence(
             start = LocalDate.parse("2024-01-10"),
-            conclusion = LocalDate.parse("2024-03-10"),
-            frequency = ""
+            frequency = "times=3"
         )
         val monthlyRecurrence = MonthlyRecurrence(recurrence)
 
@@ -79,5 +76,31 @@ class MonthlyRecurrenceTest {
             LocalDate.parse("2024-01-10"),
             LocalDate.parse("2024-02-10"),
         )
+    }
+
+    @Test
+    fun `conclusion is set to max value when frequency times is less than 1`() {
+        val recurrence = MonthlyRecurrence(
+            recurrence(
+                start = LocalDate.parse("2024-01-10"),
+                frequency = "times=-1"
+            )
+        )
+
+        val conclusion = recurrence.conclusion
+
+        assertThat(conclusion == LocalDate.MAX)
+    }
+
+    @Test
+    fun `conclusion is equals the start date when frequency times is 1`() {
+        val start = LocalDate.parse("2024-01-10")
+        val recurrence = MonthlyRecurrence(
+            recurrence(start = start, frequency = "times=1")
+        )
+
+        val conclusion = recurrence.conclusion
+
+        assertThat(conclusion == start)
     }
 }

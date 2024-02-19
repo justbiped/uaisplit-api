@@ -3,7 +3,7 @@ package biped.works.tosplit.transaction.data.remote
 import com.google.cloud.Timestamp
 import java.math.BigDecimal
 
-data class RemoteTransactionMetadata(
+data class TransactionMetadataStore(
     val name: String,
     val description: String,
     val start: Timestamp,
@@ -12,16 +12,5 @@ data class RemoteTransactionMetadata(
     val recurrence: RemoteRecurrence,
     val value: BigDecimal
 )
-
-data class RemoteRecurrence(
-    val frequency: String,
-    val type: String
-) {
-    enum class Type {
-        YEARLY,
-        MONTHLY,
-        CUSTOM
-    }
-}
 
 
