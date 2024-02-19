@@ -7,11 +7,13 @@ import java.util.*
 
 data class TransactionMetadata(
     val id: String,
+    val owner: String,
     val name: String,
     val description: String,
     val value: BigDecimal,
     val recurrence: Recurrence
 ) {
+    val start = recurrence.start
     val conclusion = recurrence.conclusion
 
     fun createTransactions(timeSpan: TimeSpan = TimeSpan()) = recurrence.generateDueDates(timeSpan)
