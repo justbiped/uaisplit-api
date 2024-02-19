@@ -1,6 +1,6 @@
 package biped.works.tosplit.transaction
 
-import biped.works.tosplit.transaction.data.Transaction
+import biped.works.tosplit.transaction.data.domain.Transaction
 import biped.works.tosplit.transaction.data.TransactionRepository
 import javax.inject.Inject
 

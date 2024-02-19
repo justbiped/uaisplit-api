@@ -1,7 +1,7 @@
 package biped.works.tosplit.transaction
 
-import biped.works.tosplit.transaction.data.TimeSpan
-import biped.works.tosplit.transaction.data.Transaction
+import biped.works.tosplit.transaction.data.domain.TimeSpan
+import biped.works.tosplit.transaction.data.domain.Transaction
 import biped.works.tosplit.transaction.data.TransactionRepository
 import java.time.LocalDate
 import javax.inject.Inject
