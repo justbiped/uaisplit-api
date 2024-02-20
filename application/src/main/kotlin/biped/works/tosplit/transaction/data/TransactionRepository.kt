@@ -1,6 +1,5 @@
 package biped.works.tosplit.transaction.data
 
-import biped.works.tosplit.core.toEpochSecond
 import biped.works.tosplit.core.toObject
 import biped.works.tosplit.transaction.data.domain.TimeSpan
 import biped.works.tosplit.transaction.data.domain.TransactionMetadata
@@ -17,7 +16,7 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
     fun getTransactionMetadataList(timeSpan: TimeSpan): List<TransactionMetadata> {
         val transactionMetadataQuery = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
-            .whereGreaterThanOrEqualTo("start", timeSpan.start.toEpochSecond())
+            .whereGreaterThanOrEqualTo("start", timeSpan.start.toTimestamp())
             .get()
 
         return transactionMetadataQuery.get().documents

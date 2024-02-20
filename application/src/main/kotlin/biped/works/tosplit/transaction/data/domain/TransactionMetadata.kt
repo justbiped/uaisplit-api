@@ -29,6 +29,17 @@ data class TransactionMetadata(
                 recurrence = recurrence
             )
         }
+
+    companion object {
+        fun fromTransaction(transaction: Transaction) = TransactionMetadata(
+            id = transaction.id,
+            owner = transaction.owner,
+            name = transaction.name,
+            description = transaction.description,
+            value = transaction.value,
+            recurrence = transaction.recurrence
+        )
+    }
 }
 
 fun LocalDate.withAdjustableDayOfMonth(dayOfMonth: Int): LocalDate {

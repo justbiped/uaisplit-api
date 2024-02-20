@@ -6,6 +6,7 @@ import biped.works.tosplit.transaction.data.remote.RemoteRecurrence
 import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import com.google.cloud.Timestamp
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -29,13 +30,13 @@ fun TransactionMetadata.toRemote() = TransactionMetadataStore(
 )
 
 fun TransactionRequest.toDomain() = Transaction(
-    id = id,
+    id = "",
     owner = owner,
-    metaId = metaId,
+    metaId = "",
     name = name,
     description = description,
     due = due,
-    value = value,
+    value = BigDecimal(value.amount), // todo: Update the domain object to have value too
     recurrence = recurrence.toDomain(due)
 )
 
@@ -81,6 +82,6 @@ private fun Timestamp.toLocalDate(): LocalDate {
     return LocalDate.ofInstant(toDate().toInstant(), ZoneId.of("UTC"))
 }
 
-private fun LocalDate.toTimestamp(): Timestamp {
+fun LocalDate.toTimestamp(): Timestamp {
     return Timestamp.ofTimeSecondsAndNanos(toEpochSecond(), 0)
 }
