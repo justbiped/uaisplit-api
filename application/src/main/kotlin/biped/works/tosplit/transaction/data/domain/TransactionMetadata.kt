@@ -1,6 +1,5 @@
 package biped.works.tosplit.transaction.data.domain
 
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.chrono.ChronoLocalDate
 import java.util.*
@@ -10,7 +9,7 @@ data class TransactionMetadata(
     val owner: String,
     val name: String,
     val description: String,
-    val value: BigDecimal,
+    val value: Value,
     val recurrence: Recurrence
 ) {
     val start = recurrence.start

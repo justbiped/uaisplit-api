@@ -1,5 +1,6 @@
 package biped.works.tosplit.transaction.data.remote
 
+import biped.works.tosplit.transaction.data.domain.Value
 import java.time.LocalDate
 
 data class TransactionRequest(
@@ -10,5 +11,3 @@ data class TransactionRequest(
     val value: Value,
     val recurrence: RemoteRecurrence
 )
-
-data class Value(val amount: Double, val currency: String)

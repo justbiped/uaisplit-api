@@ -1,6 +1,5 @@
 package biped.works.tosplit.transaction.data.domain
 
-import java.math.BigDecimal
 import java.time.LocalDate
 
 data class Transaction(
@@ -10,6 +9,6 @@ data class Transaction(
     val name: String,
     val description: String,
     val due: LocalDate,
-    val value: BigDecimal,
+    val value: Value,
     val recurrence: Recurrence,
 )

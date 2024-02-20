@@ -1,7 +1,7 @@
 package biped.works.tosplit.transaction.data.remote
 
+import biped.works.tosplit.transaction.data.domain.Value
 import com.google.cloud.Timestamp
-import java.math.BigDecimal
 
 data class TransactionMetadataStore(
     val name: String,
@@ -10,7 +10,7 @@ data class TransactionMetadataStore(
     val conclusion: Timestamp,
     val owner: String,
     val recurrence: RemoteRecurrence,
-    val value: BigDecimal
+    val value: Value
 )
 
 
