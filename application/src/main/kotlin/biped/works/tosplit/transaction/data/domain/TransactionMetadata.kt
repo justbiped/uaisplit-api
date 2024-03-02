@@ -52,13 +52,3 @@ data class TimeSpan(
 ) {
     val startDay = start.dayOfMonth
 }
-
-
-object DateTools {
-    fun min(first: LocalDate, second: LocalDate) = if (first.isBefore(second)) first else second
-    fun max(first: LocalDate, second: LocalDate) = if (first.isAfter(second)) first else second
-}
-
-fun LocalDate.isBeforeOrEquals(other: ChronoLocalDate): Boolean {
-    return isBefore(other) || this == other
-}

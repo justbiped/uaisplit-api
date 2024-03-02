@@ -1,5 +1,6 @@
 package biped.works.tosplit.transaction.data.domain
 
+import biped.works.tosplit.core.isBeforeOrEquals
 import java.time.LocalDate
 
 interface Recurrence {

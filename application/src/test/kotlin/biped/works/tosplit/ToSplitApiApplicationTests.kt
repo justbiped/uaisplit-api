@@ -9,5 +9,4 @@ class ToSplitApiApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-
 }

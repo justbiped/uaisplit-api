@@ -1,9 +1,9 @@
 package biped.works.tosplit.transaction.data
 
+import biped.works.tosplit.core.isBeforeOrEquals
 import biped.works.tosplit.core.toObject
 import biped.works.tosplit.transaction.data.domain.TimeSpan
 import biped.works.tosplit.transaction.data.domain.TransactionMetadata
-import biped.works.tosplit.transaction.data.domain.isBeforeOrEquals
 import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
 import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.QueryDocumentSnapshot
