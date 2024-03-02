@@ -1,7 +1,6 @@
 package biped.works.tosplit.transaction.data.domain
 
 import java.time.LocalDate
-import java.time.chrono.ChronoLocalDate
 import java.util.*
 
 data class TransactionMetadata(

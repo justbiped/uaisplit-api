@@ -1,8 +1,5 @@
-package biped.works.tosplit.transaction.data
+package biped.works.tosplit.transaction.data.domain
 
-import biped.works.tosplit.transaction.data.domain.MonthlyRecurrence
-import biped.works.tosplit.transaction.data.domain.TimeSpan
-import biped.works.tosplit.transaction.data.domain.recurrence
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
