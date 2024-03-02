@@ -2,7 +2,7 @@ package biped.works.tosplit.transaction.controller
 
 import biped.works.tosplit.core.toLocalDate
 import biped.works.tosplit.transaction.CreateTransactionUseCase
-import biped.works.tosplit.transaction.EditTransactionUseCase
+import biped.works.tosplit.transaction.UpdateTransactionUseCase
 import biped.works.tosplit.transaction.ListTransactionsUseCase
 import biped.works.tosplit.transaction.UpdatePolicy
 import biped.works.tosplit.transaction.data.domain.Transaction
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 class TransactionController(
     private val listTransactionsUseCase: ListTransactionsUseCase,
     private val saveTransactionUseCase: CreateTransactionUseCase,
-    private val editTransactionUseCase: EditTransactionUseCase
+    private val updateTransactionUseCase: UpdateTransactionUseCase
 ) {
     @GetMapping("/{entry}/{conclusion}")
     fun getTransactions(
@@ -40,6 +40,6 @@ class TransactionController(
         // edit a transaction here.
         val transaction = updateRequest.transactionRequest.toDomain()
         val policy = UpdatePolicy.valueOf(updateRequest.policy)
-        editTransactionUseCase(transaction, policy)
+        updateTransactionUseCase(transaction, policy)
     }
 }
