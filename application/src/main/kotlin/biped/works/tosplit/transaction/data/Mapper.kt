@@ -29,9 +29,9 @@ fun TransactionMetadata.toRemote() = TransactionMetadataStore(
 )
 
 fun TransactionRequest.toDomain() = Transaction(
-    id = "",
+    id = id ?: "",
+    metaId = metaId ?: "",
     owner = owner,
-    metaId = "",
     name = name,
     description = description,
     due = due,
