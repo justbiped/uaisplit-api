@@ -6,7 +6,7 @@ import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.chrono.ChronoLocalDate
 
-fun String.toLocalDate() = LocalDate.parse(this)
+fun String.toLocalDate(): LocalDate = LocalDate.parse(this)
 
 fun LocalDate.toEpochSecond(offset: ZoneOffset = ZoneOffset.UTC): Long {
     return LocalDateTime
@@ -15,8 +15,8 @@ fun LocalDate.toEpochSecond(offset: ZoneOffset = ZoneOffset.UTC): Long {
 }
 
 object DateTools {
-    fun min(first: LocalDate, second: LocalDate) = if (first.isBefore(second)) first else second
-    fun max(first: LocalDate, second: LocalDate) = if (first.isAfter(second)) first else second
+    fun min(first: LocalDate, second: LocalDate): LocalDate = if (first.isBefore(second)) first else second
+    fun max(first: LocalDate, second: LocalDate): LocalDate = if (first.isAfter(second)) first else second
 }
 
 fun LocalDate.isBeforeOrEquals(other: ChronoLocalDate): Boolean {
