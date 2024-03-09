@@ -15,6 +15,6 @@ data class TransactionRequest(
 )
 
 data class TransactionUpdateRequest(
-    val transactionRequest: TransactionRequest,
+    val transaction: TransactionRequest,
     val policy: String
 )

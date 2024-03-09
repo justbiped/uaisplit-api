@@ -9,7 +9,7 @@ import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.QueryDocumentSnapshot
 import javax.inject.Inject
 
-class TransactionRepository @Inject constructor(firestore: Firestore) {
+class TransactionRepository @Inject constructor(private val firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
@@ -30,7 +30,14 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
 
     fun saveTransactionMetadata(transactionMetadata: TransactionMetadata) {
         val remoteMetadata = transactionMetadata.toRemote()
-        collection.document()
+        val document =
+            if (transactionMetadata.id.isBlank()) {
+                collection.document()
+            } else {
+                collection.document(transactionMetadata.id)
+            }
+
+        document
             .set(remoteMetadata)
             .get()
             .updateTime

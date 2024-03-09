@@ -30,7 +30,7 @@ data class TransactionMetadata(
 
     companion object {
         fun fromTransaction(transaction: Transaction) = TransactionMetadata(
-            id = transaction.id,
+            id = transaction.metaId,
             owner = transaction.owner,
             name = transaction.name,
             description = transaction.description,
