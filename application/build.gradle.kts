@@ -39,7 +39,9 @@ dependencies {
 
     implementation("javax.inject:javax.inject:1")
 
-    implementation("com.google.firebase:firebase-admin:9.1.1")
+    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation("io.grpc:grpc-okhttp:1.44.1")
+
 
     testImplementation("com.google.truth:truth:1.1.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

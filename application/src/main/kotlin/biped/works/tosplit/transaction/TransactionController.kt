@@ -8,6 +8,18 @@ import biped.works.tosplit.transaction.data.toDomain
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.time.LocalDate
+
+data class RemoteStatement(
+    val timeSpan: RemoteTimeSpan,
+    val balance: String,
+    val transactions: List<Transaction>
+)
+
+data class RemoteTimeSpan(
+    val entry: String,
+    val conclusion: String
+)
 
 @RestController
 @RequestMapping("/transaction")
@@ -16,6 +28,21 @@ class TransactionController(
     private val saveTransactionUseCase: CreateTransactionUseCase,
     private val updateTransactionUseCase: UpdateTransactionUseCase
 ) {
+    @GetMapping("/statement")
+    fun getStatement(): ResponseEntity<RemoteStatement> {
+        val transactions = listTransactionsUseCase(LocalDate.parse("2024-01-01"), LocalDate.parse("2024-01-30"))
+        val balance = transactions.sumOf { it.value.amount }
+        val timeSpan = RemoteTimeSpan("2024-01-01", "2024-01-30")
+
+        return ResponseEntity.ok(
+            RemoteStatement(
+                timeSpan = timeSpan,
+                balance = balance.toString(),
+                transactions = transactions
+            )
+        )
+    }
+
     @GetMapping("/{entry}/{conclusion}")
     fun getTransactions(
         @PathVariable entry: String,
