@@ -1,6 +1,7 @@
 package biped.works.tosplit.transaction.di
 
 import biped.works.tosplit.transaction.CreateTransactionUseCase
+import biped.works.tosplit.transaction.GetTransactionUseCase
 import biped.works.tosplit.transaction.ListTransactionsUseCase
 import biped.works.tosplit.transaction.UpdateTransactionUseCase
 import biped.works.tosplit.transaction.data.TransactionRepository
@@ -22,6 +23,11 @@ class TransactionModule {
     fun provideListTransactionUseCase(
         transactionRepository: TransactionRepository
     ) = ListTransactionsUseCase(transactionRepository)
+
+    @Bean
+    fun provideGetTransactionUseCase(
+        transactionRepository: TransactionRepository
+    ) = GetTransactionUseCase(transactionRepository)
 
     @Bean
     fun provideUpdateTransactionUseCase(

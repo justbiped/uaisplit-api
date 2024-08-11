@@ -1,6 +1,7 @@
 package biped.works.tosplit.transaction
 
 import biped.works.tosplit.core.toLocalDate
+import biped.works.tosplit.transaction.data.TransactionLocator
 import biped.works.tosplit.transaction.data.domain.Transaction
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import biped.works.tosplit.transaction.data.remote.TransactionUpdateRequest
@@ -25,6 +26,7 @@ data class RemoteTimeSpan(
 @RequestMapping("/transaction")
 class TransactionController(
     private val listTransactionsUseCase: ListTransactionsUseCase,
+    private val getTransactionUseCase: GetTransactionUseCase,
     private val saveTransactionUseCase: CreateTransactionUseCase,
     private val updateTransactionUseCase: UpdateTransactionUseCase
 ) {
@@ -52,6 +54,14 @@ class TransactionController(
         return ResponseEntity.ok(transactions)
     }
 
+    @GetMapping("/{id}")
+    fun getTransaction(
+        @PathVariable id: String,
+    ): ResponseEntity<Transaction> {
+        val result = getTransactionUseCase(TransactionLocator(id))
+        return ResponseEntity.ok(result.getOrNull())
+    }
+
     @PostMapping
     fun createTransaction(@RequestBody transactionRequest: TransactionRequest): ResponseEntity<String> {
         // todo: create headers to get the client timezone
@@ -73,3 +83,4 @@ class TransactionController(
         }
     }
 }
+

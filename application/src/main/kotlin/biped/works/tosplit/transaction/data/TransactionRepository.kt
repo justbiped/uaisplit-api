@@ -24,6 +24,15 @@ class TransactionRepository @Inject constructor(private val firestore: Firestore
             .filter { timeSpan.end.isBeforeOrEquals(it.conclusion) }
     }
 
+    fun getTransactionMetadata(
+        metaId: String
+    ): TransactionMetadata {
+        val metadataDocument = collection.document(metaId).get().get()
+        return metadataDocument
+            .toObject<TransactionMetadataStore>()
+            .toDomain(metadataDocument.id)
+    }
+
     private fun parseDocument(document: QueryDocumentSnapshot) = document
         .toObject<TransactionMetadataStore>()
         .toDomain(document.id)
