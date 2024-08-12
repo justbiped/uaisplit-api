@@ -15,10 +15,8 @@ class TransactionMetadataTest {
 
     @Test
     fun `create transactions given a transaction metadata`() {
-        val timeSpan = TimeSpan()
-        val recurrence = relaxedMock<Recurrence>()
-        val metadata = transactionMetadata(name = "Car Rent", recurrence = recurrence)
-        every { recurrence.generateDueDates(timeSpan) } returns listOf(date20240110, date20240210, date20240310)
+        val monthlyRecurrence = MonthlyRecurrence(recurrence(date20240110, "times=3"))
+        val metadata = transactionMetadata(name = "Car Rent", recurrence = monthlyRecurrence)
 
         val transactions = metadata.createTransactions()
 
@@ -26,9 +24,3 @@ class TransactionMetadataTest {
         assertThat(transactions.map { it.due }).containsExactly(date20240110, date20240210, date20240310)
     }
 }
-
-inline fun <reified T : Any> relaxedMock(
-    name: String? = "",
-    vararg moreInterfaces: KClass<*>,
-    block: T.() -> Unit = {}
-) = mockk<T>(name = name, moreInterfaces = moreInterfaces, block = block, relaxed = true)

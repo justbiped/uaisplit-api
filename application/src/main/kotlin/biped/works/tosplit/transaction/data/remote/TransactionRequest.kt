@@ -5,7 +5,6 @@ import java.time.LocalDate
 
 data class TransactionRequest(
     val id: String?,
-    val metaId: String?,
     val owner: String,
     val name: String,
     val description: String,

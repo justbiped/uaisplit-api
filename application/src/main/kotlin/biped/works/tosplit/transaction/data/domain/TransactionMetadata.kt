@@ -1,5 +1,6 @@
 package biped.works.tosplit.transaction.data.domain
 
+import biped.works.tosplit.transaction.data.TransactionLocator
 import java.time.LocalDate
 import java.util.*
 
@@ -17,8 +18,7 @@ data class TransactionMetadata(
     fun createTransactions(timeSpan: TimeSpan = TimeSpan()): List<Transaction> = recurrence.generateDueDates(timeSpan)
         .map { dueDate ->
             Transaction(
-                id = UUID.randomUUID().toString(),
-                metaId = id,
+                id = TransactionLocator(metaId = id, due = dueDate).key,
                 owner = owner,
                 name = name,
                 description = description,
@@ -30,7 +30,7 @@ data class TransactionMetadata(
 
     companion object {
         fun fromTransaction(transaction: Transaction) = TransactionMetadata(
-            id = transaction.metaId,
+            id = TransactionLocator(transaction.id).metaId,
             owner = transaction.owner,
             name = transaction.name,
             description = transaction.description,

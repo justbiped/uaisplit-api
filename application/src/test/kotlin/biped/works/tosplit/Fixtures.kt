@@ -4,7 +4,7 @@ import biped.works.tosplit.transaction.data.domain.*
 import java.time.LocalDate
 
 fun transactionMetadata(
-    id: String = "",
+    id: String = "metaId",
     owner: String = "",
     name: String = "",
     description: String = "",

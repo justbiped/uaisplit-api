@@ -4,7 +4,6 @@ import java.time.LocalDate
 
 data class Transaction(
     val id: String,
-    val metaId: String,
     val owner: String,
     val name: String,
     val description: String,
