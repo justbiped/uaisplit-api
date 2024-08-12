@@ -22,3 +22,8 @@ object DateTools {
 fun LocalDate.isBeforeOrEquals(other: ChronoLocalDate): Boolean {
     return isBefore(other) || this == other
 }
+
+fun LocalDate.withAdjustableDayOfMonth(dayOfMonth: Int): LocalDate {
+    val lastDayOfMonth = month.length(isLeapYear)
+    return if (dayOfMonth < lastDayOfMonth) withDayOfMonth(dayOfMonth) else withDayOfMonth(lastDayOfMonth)
+}

@@ -40,11 +40,6 @@ data class TransactionMetadata(
     }
 }
 
-fun LocalDate.withAdjustableDayOfMonth(dayOfMonth: Int): LocalDate {
-    val lastDayOfMonth = month.length(isLeapYear)
-    return if (dayOfMonth < lastDayOfMonth) withDayOfMonth(dayOfMonth) else withDayOfMonth(lastDayOfMonth)
-}
-
 data class TimeSpan(
     val start: LocalDate = LocalDate.MIN,
     val end: LocalDate = LocalDate.MAX
