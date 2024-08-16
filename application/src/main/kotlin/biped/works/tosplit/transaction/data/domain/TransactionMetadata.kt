@@ -29,14 +29,17 @@ data class TransactionMetadata(
         }
 
     companion object {
-        fun fromTransaction(transaction: Transaction) = TransactionMetadata(
-            id = TransactionLocator(transaction.id).metaId,
+        fun fromTransaction(transaction: Transaction): TransactionMetadata = TransactionMetadata(
+            id = getMetaId(transaction),
             owner = transaction.owner,
             name = transaction.name,
             description = transaction.description,
             value = transaction.value,
             recurrence = transaction.recurrence
         )
+
+        private fun getMetaId(transaction: Transaction) =
+            if (transaction.id.isNotBlank()) TransactionLocator(transaction.id).metaId else ""
     }
 }
 

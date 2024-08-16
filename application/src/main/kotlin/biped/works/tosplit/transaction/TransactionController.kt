@@ -8,7 +8,6 @@ import biped.works.tosplit.transaction.data.remote.TransactionUpdateRequest
 import biped.works.tosplit.transaction.data.toDomain
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.net.URI
 import java.time.LocalDate
 
 data class RemoteStatement(
@@ -67,7 +66,7 @@ class TransactionController(
         // todo: create headers to get the client timezone
         saveTransactionUseCase(transactionRequest.toDomain())
         // todo: return created transaction
-        return ResponseEntity.created(URI("")).build()
+        return ResponseEntity.ok("Created")
     }
 
     @PutMapping
