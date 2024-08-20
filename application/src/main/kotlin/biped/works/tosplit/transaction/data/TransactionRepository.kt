@@ -39,16 +39,14 @@ class TransactionRepository @Inject constructor(private val firestore: Firestore
 
     fun saveTransactionMetadata(transactionMetadata: TransactionMetadata) {
         val remoteMetadata = transactionMetadata.toRemote()
-        val document =
-            if (transactionMetadata.id.isBlank()) {
-                collection.document()
-            } else {
-                collection.document(transactionMetadata.id)
-            }
+        val document = if (transactionMetadata.id.isBlank()) {
+            collection.document()
+        } else {
+            collection.document(transactionMetadata.id)
+        }
 
         document
             .set(remoteMetadata)
             .get()
-            .updateTime
     }
 }

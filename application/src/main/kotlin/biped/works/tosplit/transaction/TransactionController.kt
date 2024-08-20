@@ -29,11 +29,14 @@ class TransactionController(
     private val saveTransactionUseCase: CreateTransactionUseCase,
     private val updateTransactionUseCase: UpdateTransactionUseCase
 ) {
-    @GetMapping("/statement")
-    fun getStatement(): ResponseEntity<RemoteStatement> {
-        val transactions = listTransactionsUseCase(LocalDate.parse("2024-01-01"), LocalDate.parse("2024-01-30"))
+    @GetMapping("/statement/{entry}/{conclusion}")
+    fun getStatement(
+        @PathVariable entry: String,
+        @PathVariable conclusion: String
+    ): ResponseEntity<RemoteStatement> {
+        val transactions = listTransactionsUseCase(LocalDate.parse(entry), LocalDate.parse(conclusion))
         val balance = transactions.sumOf { it.value.amount }
-        val timeSpan = RemoteTimeSpan("2024-01-01", "2024-01-30")
+        val timeSpan = RemoteTimeSpan(entry, conclusion)
 
         return ResponseEntity.ok(
             RemoteStatement(
