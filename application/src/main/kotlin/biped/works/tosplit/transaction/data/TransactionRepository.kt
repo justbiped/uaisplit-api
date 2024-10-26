@@ -21,7 +21,7 @@ class TransactionRepository @Inject constructor(private val firestore: Firestore
 
         return transactionMetadataQuery.get().documents
             .map { document -> parseDocument(document) }
-            .filter { timeSpan.end.isBeforeOrEquals(it.conclusion) }
+            .filter { it.conclusion.isBeforeOrEquals(timeSpan.end) }
     }
 
     fun getTransactionMetadata(
