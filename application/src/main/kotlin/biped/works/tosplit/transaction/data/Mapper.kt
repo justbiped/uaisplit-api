@@ -1,6 +1,8 @@
 package biped.works.tosplit.transaction.data
 
+import biped.works.tosplit.core.format
 import biped.works.tosplit.core.toEpochSecond
+import biped.works.tosplit.core.toLocalDate
 import biped.works.tosplit.transaction.data.domain.*
 import biped.works.tosplit.transaction.data.remote.RemoteRecurrence
 import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
@@ -15,14 +17,14 @@ fun TransactionMetadataStore.toDomain(id: String) = TransactionMetadata(
     name = name,
     description = description,
     value = value,
-    recurrence = recurrence.toDomain(start)
+    recurrence = recurrence.toDomain(start.toLocalDate())
 )
 
 fun TransactionMetadata.toRemote() = TransactionMetadataStore(
     name = name,
     description = description,
-    start = start.toTimestamp(),
-    conclusion = if (conclusion == LocalDate.MAX) Timestamp.MAX_VALUE else conclusion.toTimestamp(),
+    start = start.format(),
+    conclusion = conclusion.format(),
     owner = owner,
     recurrence = recurrence.toRemote(),
     value = value,
@@ -36,6 +38,26 @@ fun TransactionRequest.toDomain() = Transaction(
     due = due,
     value = value,
     recurrence = recurrence.toDomain(due)
+)
+
+data class TransactionResponse(
+    val id: String,
+    val owner: String,
+    val name: String,
+    val description: String,
+    val due: String,
+    val value: Value,
+    val recurrence: Recurrence,
+)
+
+fun Transaction.toResponse() = TransactionResponse(
+    id,
+    owner,
+    name,
+    description,
+    due.format(),
+    value,
+    recurrence,
 )
 
 private fun RemoteRecurrence.toDomain(start: Timestamp): Recurrence {

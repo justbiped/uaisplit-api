@@ -2,10 +2,12 @@ package biped.works.tosplit.transaction
 
 import biped.works.tosplit.core.toLocalDate
 import biped.works.tosplit.transaction.data.TransactionLocator
+import biped.works.tosplit.transaction.data.TransactionResponse
 import biped.works.tosplit.transaction.data.domain.Transaction
 import biped.works.tosplit.transaction.data.remote.TransactionRequest
 import biped.works.tosplit.transaction.data.remote.TransactionUpdateRequest
 import biped.works.tosplit.transaction.data.toDomain
+import biped.works.tosplit.transaction.data.toResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
@@ -59,9 +61,9 @@ class TransactionController(
     @GetMapping("/{id}")
     fun getTransaction(
         @PathVariable id: String,
-    ): ResponseEntity<Transaction> {
+    ): ResponseEntity<TransactionResponse> {
         val result = getTransactionUseCase(TransactionLocator(id))
-        return ResponseEntity.ok(result.getOrNull())
+        return ResponseEntity.ok(result.getOrNull()?.toResponse())
     }
 
     @PostMapping
@@ -85,4 +87,3 @@ class TransactionController(
         }
     }
 }
-

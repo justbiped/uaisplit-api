@@ -9,19 +9,21 @@ import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.QueryDocumentSnapshot
 import javax.inject.Inject
 
-class TransactionRepository @Inject constructor(private val firestore: Firestore) {
+class TransactionRepository @Inject constructor(firestore: Firestore) {
 
     private val collection = firestore.collection("transaction")
 
     fun getTransactionMetadataList(timeSpan: TimeSpan): List<TransactionMetadata> {
         val transactionMetadataQuery = collection
             .whereEqualTo("owner", "aXTh7D9qGSNk1zjWtDrR")
-            .whereGreaterThanOrEqualTo("start", timeSpan.start.toTimestamp())
             .get()
 
         return transactionMetadataQuery.get().documents
             .map { document -> parseDocument(document) }
-            .filter { it.conclusion.isBeforeOrEquals(timeSpan.end) }
+            .filter {
+                (it.start.isAfter(timeSpan.start) || it.start.isEqual(timeSpan.start))
+                        && it.conclusion.isBeforeOrEquals(timeSpan.end)
+            }
     }
 
     fun getTransactionMetadata(

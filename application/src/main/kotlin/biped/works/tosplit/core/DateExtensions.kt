@@ -1,12 +1,25 @@
 package biped.works.tosplit.core
 
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneOffset
+import java.time.*
 import java.time.chrono.ChronoLocalDate
+import java.time.format.DateTimeFormatter
 
-fun String.toLocalDate(): LocalDate = LocalDate.parse(this)
+private val UTC_ZONE = ZoneId.of("UTC")
+const val ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
+fun String.toLocalDate(pattern: String = ISO_8601): LocalDate {
+    val temporalAccessor = DateTimeFormatter.ofPattern(pattern)
+        .withZone(UTC_ZONE)
+        .parse(this)
+
+    return LocalDate.from(temporalAccessor)
+}
+
+fun LocalDate.format(pattern: String = ISO_8601): String {
+    return DateTimeFormatter.ofPattern(pattern)
+        .withZone(UTC_ZONE)
+        .format(this.atStartOfDay())
+}
 
 fun LocalDate.toEpochSecond(offset: ZoneOffset = ZoneOffset.UTC): Long {
     return LocalDateTime

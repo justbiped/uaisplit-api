@@ -6,8 +6,8 @@ import com.google.cloud.Timestamp
 data class TransactionMetadataStore(
     val name: String,
     val description: String,
-    val start: Timestamp,
-    val conclusion: Timestamp,
+    val start: String,
+    val conclusion: String,
     val owner: String,
     val recurrence: RemoteRecurrence,
     val value: Value
