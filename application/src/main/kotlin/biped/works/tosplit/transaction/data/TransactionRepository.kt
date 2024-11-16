@@ -1,6 +1,5 @@
 package biped.works.tosplit.transaction.data
 
-import biped.works.tosplit.core.isBeforeOrEquals
 import biped.works.tosplit.core.toObject
 import biped.works.tosplit.transaction.data.domain.TimeSpan
 import biped.works.tosplit.transaction.data.domain.TransactionMetadata
@@ -20,10 +19,12 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
 
         return transactionMetadataQuery.get().documents
             .map { document -> parseDocument(document) }
-            .filter {
-                (it.start.isAfter(timeSpan.start) || it.start.isEqual(timeSpan.start))
-                        && it.conclusion.isBeforeOrEquals(timeSpan.end)
-            }
+            .filter { meta -> hasIntersection(meta, timeSpan) }
+    }
+
+    private fun hasIntersection(meta: TransactionMetadata, second: TimeSpan): Boolean {
+        return meta.start <= second.start && meta.conclusion >= meta.start
+                || second.start <= meta.start && second.end >= meta.start
     }
 
     fun getTransactionMetadata(
