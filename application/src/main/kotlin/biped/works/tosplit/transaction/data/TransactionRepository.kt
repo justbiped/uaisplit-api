@@ -6,7 +6,11 @@ import biped.works.tosplit.transaction.data.domain.TransactionMetadata
 import biped.works.tosplit.transaction.data.remote.TransactionMetadataStore
 import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.QueryDocumentSnapshot
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class TransactionRepository @Inject constructor(firestore: Firestore) {
 
@@ -40,7 +44,7 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
         .toObject<TransactionMetadataStore>()
         .toDomain(document.id)
 
-    fun saveTransactionMetadata(transactionMetadata: TransactionMetadata) {
+    fun saveTransactionMetadata(transactionMetadata: TransactionMetadata): String {
         val remoteMetadata = transactionMetadata.toRemote()
         val document = if (transactionMetadata.id.isBlank()) {
             collection.document()
@@ -48,8 +52,20 @@ class TransactionRepository @Inject constructor(firestore: Firestore) {
             collection.document(transactionMetadata.id)
         }
 
-        document
-            .set(remoteMetadata)
-            .get()
+        val id = runBlocking {
+            suspendCoroutine<String> { continuation ->
+                document
+                    .addSnapshotListener { documentSnapshot, exception ->
+                        if (exception != null) continuation.resumeWithException(exception)
+
+                        val id = documentSnapshot?.id
+                        if (id != null) continuation.resume(id)
+                        else continuation.resumeWithException(Exception("Unable to retrieve meta id"))
+                    }
+            }
+        }
+
+        document.set(remoteMetadata).get()
+        return id
     }
 }

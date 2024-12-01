@@ -43,6 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("io.grpc:grpc-okhttp:1.44.1")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
 
     testImplementation("com.google.truth:truth:1.1.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

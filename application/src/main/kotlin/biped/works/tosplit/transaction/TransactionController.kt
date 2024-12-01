@@ -67,23 +67,8 @@ class TransactionController(
     }
 
     @PostMapping
-    fun createTransaction(@RequestBody transactionRequest: TransactionRequest): ResponseEntity<String> {
-        // todo: create headers to get the client timezone
-        saveTransactionUseCase(transactionRequest.toDomain())
-        // todo: return created transaction
-        return ResponseEntity.ok("Created")
-    }
-
-    @PutMapping
-    fun updateTransaction(@RequestBody updateRequest: TransactionUpdateRequest): ResponseEntity<String> {
-        // edit a transaction here.
-        val transaction = updateRequest.transaction.toDomain()
-        val policy = UpdatePolicy.valueOf(updateRequest.policy)
-        val result = updateTransactionUseCase(transaction, policy)
-        return if (result.isSuccess) {
-            ResponseEntity.ok().build()
-        } else {
-            ResponseEntity.badRequest().build()
-        }
+    fun createTransaction(@RequestBody transactionRequest: TransactionRequest): ResponseEntity<Transaction> {
+        val transaction = saveTransactionUseCase(transactionRequest.toDomain())
+        return ResponseEntity.ok(transaction)
     }
 }
